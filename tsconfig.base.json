@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "strict": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -17,6 +18,9 @@
     "paths": {
       "@chat/client/shared/app-config": [
         "libs/client/shared/app-config/src/index.ts"
+      ],
+      "@chat/client/shared/util/platform": [
+        "libs/client/shared/util/platform/src/index.ts"
       ],
       "@chat/client/shared/util/splash-screen": [
         "libs/client/shared/util/splash-screen/src/index.ts"
