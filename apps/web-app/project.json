@@ -29,6 +29,11 @@
         "styles": [
           "apps/web-app/src/styles.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/client/shared/styles/src"
+          ]
+        },
         "scripts": []
       },
       "configurations": {
