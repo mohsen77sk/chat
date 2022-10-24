@@ -27,6 +27,9 @@
       ],
       "@chat/client/shared/util/splash-screen": [
         "libs/client/shared/util/splash-screen/src/index.ts"
+      ],
+      "@chat/client/shared/util/utils": [
+        "libs/client/shared/util/utils/src/index.ts"
       ]
     }
   },
