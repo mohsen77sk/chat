@@ -19,6 +19,9 @@
       "@chat/client/shared/app-config": [
         "libs/client/shared/app-config/src/index.ts"
       ],
+      "@chat/client/shared/util/config": [
+        "libs/client/shared/util/config/src/index.ts"
+      ],
       "@chat/client/shared/util/platform": [
         "libs/client/shared/util/platform/src/index.ts"
       ],
