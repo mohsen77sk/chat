@@ -24,7 +24,8 @@
             "glob": "**/*",
             "input": "libs/client/shared/assets/src",
             "output": "assets"
-          }
+          },
+          "apps/web-app/src/manifest.webmanifest"
         ],
         "styles": [
           "apps/web-app/src/styles.scss"
@@ -34,7 +35,9 @@
             "libs/client/shared/styles/src"
           ]
         },
-        "scripts": []
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/web-app/ngsw-config.json"
       },
       "configurations": {
         "production": {
