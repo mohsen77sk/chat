@@ -17,6 +17,9 @@
     "paths": {
       "@chat/client/shared/app-config": [
         "libs/client/shared/app-config/src/index.ts"
+      ],
+      "@chat/client/shared/util/splash-screen": [
+        "libs/client/shared/util/splash-screen/src/index.ts"
       ]
     }
   },
