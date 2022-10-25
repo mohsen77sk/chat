@@ -7,6 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   /**
+   * Constructor
+   */
+  constructor() {}
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
    * On init
    */
   ngOnInit(): void {

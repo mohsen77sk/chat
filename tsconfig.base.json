@@ -33,6 +33,18 @@
       ],
       "@chat/client/shared/util/utils": [
         "libs/client/shared/util/utils/src/index.ts"
+      ],
+      "@chat/client/web-app/shell/core/auth": [
+        "libs/client/web-app/shell/core/auth/src/index.ts"
+      ],
+      "@chat/client/web-app/shell/core/user": [
+        "libs/client/web-app/shell/core/user/src/index.ts"
+      ],
+      "@chat/client/web-app/shell/feature": [
+        "libs/client/web-app/shell/feature/src/index.ts"
+      ],
+      "@chat/client/web-app/shell/ui/layout": [
+        "libs/client/web-app/shell/ui/layout/src/index.ts"
       ]
     }
   },

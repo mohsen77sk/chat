@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ChatPlatformService {
   osName = 'os-unknown';
 

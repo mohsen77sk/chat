@@ -5,6 +5,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+import { ChatWebShellModule } from '@chat/client/web-app/shell/feature';
 import { GetAppConfigProvider } from '@chat/client/shared/app-config';
 
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule,
+
+    ChatWebShellModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
