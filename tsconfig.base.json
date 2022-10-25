@@ -34,6 +34,12 @@
       "@chat/client/shared/util/utils": [
         "libs/client/shared/util/utils/src/index.ts"
       ],
+      "@chat/client/web-app/auth/sign-in": [
+        "libs/client/web-app/auth/sign-in/src/index.ts"
+      ],
+      "@chat/client/web-app/auth/sign-out": [
+        "libs/client/web-app/auth/sign-out/src/index.ts"
+      ],
       "@chat/client/web-app/shell/core/auth": [
         "libs/client/web-app/shell/core/auth/src/index.ts"
       ],

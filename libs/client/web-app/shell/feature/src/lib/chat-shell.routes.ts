@@ -24,32 +24,42 @@ export const chatShellRoutes: Route[] = [
   // Auth routes for guests
   {
     path: '',
-    // canActivate: [NoAuthGuard],
-    // canActivateChild: [NoAuthGuard],
+    canActivate: [NoAuthGuard],
+    canActivateChild: [NoAuthGuard],
     component: ChatLayoutComponent,
     data: {
       layoutType: 'empty',
     },
-    children: [],
+    children: [
+      {
+        path: 'sign-in',
+        loadChildren: () => import('@chat/client/web-app/auth/sign-in').then((m) => m.AuthSignInModule),
+      },
+    ],
   },
 
   // Auth routes for authenticated users
   {
     path: '',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     component: ChatLayoutComponent,
     data: {
       layoutType: 'empty',
     },
-    children: [],
+    children: [
+      {
+        path: 'sign-out',
+        loadChildren: () => import('@chat/client/web-app/auth/sign-out').then((m) => m.AuthSignOutModule),
+      },
+    ],
   },
 
   // Panel routes
   {
     path: '',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     component: ChatLayoutComponent,
     resolve: {
       initialData: InitialDataResolver,
