@@ -24,7 +24,15 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "max-len": [
+          "error",
+          {
+            "ignorePattern": "^import |^export | implements",
+            "code": 120
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
