@@ -1,1 +1,107 @@
-<p>sign-in works!</p>
+<div class="flex min-w-0 flex-auto flex-col items-center sm:justify-center">
+  <div
+    class="sm:bg-card w-full py-8 px-4 sm:w-auto sm:rounded-2xl sm:p-12 sm:shadow"
+  >
+    <div class="max-w-80 mx-auto w-full sm:mx-0 sm:w-80">
+      <!-- Title -->
+      <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">
+        <ng-container *transloco="let t">
+          {{ t('signIn.sign-in') }}
+        </ng-container>
+      </div>
+      <div class="mt-0.5 flex items-baseline font-medium">
+        <div>
+          <ng-container *transloco="let t">
+            {{ t('signIn.do-not-have-an-account') }}
+          </ng-container>
+        </div>
+        <a
+          class="text-primary-500 mx-1 hover:underline"
+          [routerLink]="['/sign-up']"
+        >
+          <ng-container *transloco="let t">
+            {{ t('signIn.sign-up') }}
+          </ng-container>
+        </a>
+      </div>
+
+      <!-- Sign in form -->
+      <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
+        <!-- Username field -->
+        <mat-form-field class="w-full">
+          <mat-label>
+            <ng-container *transloco="let t">
+              {{ t('signIn.username') }}
+            </ng-container>
+          </mat-label>
+          <input id="username" matInput formControlName="username" />
+          <mat-error>
+            <ng-container *transloco="let t; read: 'error-validation'">
+              {{ t('required') }}
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password field -->
+        <mat-form-field class="w-full">
+          <mat-label>
+            <ng-container *transloco="let t">
+              {{ t('signIn.password') }}
+            </ng-container>
+          </mat-label>
+          <input
+            id="password"
+            matInput
+            type="password"
+            formControlName="password"
+            #passwordField
+          />
+          <div matSuffix>
+            <button
+              mat-icon-button
+              type="button"
+              (click)="
+                passwordField.type === 'password'
+                  ? (passwordField.type = 'text')
+                  : (passwordField.type = 'password')
+              "
+            >
+              <mat-icon
+                class="mat-icon-rtl-mirror icon-size-5"
+                *ngIf="passwordField.type === 'password'"
+              >
+                visibility
+              </mat-icon>
+              <mat-icon
+                class="mat-icon-rtl-mirror icon-size-5"
+                *ngIf="passwordField.type === 'text'"
+              >
+                visibility_off
+              </mat-icon>
+            </button>
+          </div>
+          <mat-error>
+            <ng-container *transloco="let t; read: 'error-validation'">
+              {{ t('required') }}
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Submit button -->
+        <button
+          class="msk-mat-button-large mt-6 w-full"
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="signInForm.disabled"
+          (click)="signIn()"
+        >
+          <span *ngIf="!signInForm.disabled">
+            <ng-container *transloco="let t">
+              {{ t('signIn.sign-in') }}
+            </ng-container>
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

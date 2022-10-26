@@ -11,7 +11,9 @@ import { UserCoreModule } from '@chat/client/web-app/shell/core/user';
 
 import { ChatLayoutModule, layoutConfig } from '@chat/client/web-app/shell/ui/layout';
 
+import { ChatIconModule } from '@chat/client/shared/util/icon';
 import { ChatConfigModule } from '@chat/client/shared/util/config';
+import { ChatTranslocoModule } from '@chat/client/shared/util/transloco';
 import { ChatMediaWatcherModule } from '@chat/client/shared/util/media-watcher';
 import { ChatSplashScreenModule } from '@chat/client/shared/util/splash-screen';
 import { ChatPlatformModule } from '@chat/client/shared/util/platform';
@@ -25,7 +27,9 @@ const routerConfig: ExtraOptions = {
 @NgModule({
   imports: [
     // Utils
+    ChatIconModule,
     ChatConfigModule.forRoot(layoutConfig),
+    ChatTranslocoModule,
     ChatMediaWatcherModule,
     ChatSplashScreenModule,
     ChatPlatformModule,

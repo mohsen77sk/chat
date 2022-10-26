@@ -22,6 +22,9 @@
       "@chat/client/shared/util/config": [
         "libs/client/shared/util/config/src/index.ts"
       ],
+      "@chat/client/shared/util/icon": [
+        "libs/client/shared/util/icon/src/index.ts"
+      ],
       "@chat/client/shared/util/media-watcher": [
         "libs/client/shared/util/media-watcher/src/index.ts"
       ],
@@ -30,6 +33,9 @@
       ],
       "@chat/client/shared/util/splash-screen": [
         "libs/client/shared/util/splash-screen/src/index.ts"
+      ],
+      "@chat/client/shared/util/transloco": [
+        "libs/client/shared/util/transloco/src/index.ts"
       ],
       "@chat/client/shared/util/utils": [
         "libs/client/shared/util/utils/src/index.ts"

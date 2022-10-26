@@ -1,1 +1,44 @@
-<p>sign-out works!</p>
+<div class="flex min-w-0 flex-auto flex-col items-center sm:justify-center">
+  <div
+    class="sm:bg-card w-full py-8 px-4 sm:w-auto sm:rounded-2xl sm:p-12 sm:shadow"
+  >
+    <div class="max-w-80 mx-auto w-full sm:mx-0 sm:w-80">
+      <!-- Title -->
+      <div
+        class="mt-8 text-center text-3xl font-extrabold leading-tight tracking-tight"
+      >
+        <ng-container *transloco="let t">
+          {{ t('signOut.sign-out-title') }}
+        </ng-container>
+      </div>
+      <div class="mt-1 flex justify-center font-medium">
+        <!-- Redirect countdown -->
+        <ng-container *ngIf="countdown > 0">
+          <ng-container *transloco="let t">
+            {{ t('signOut.redirecting-in-seconds', { seconds: countdown }) }}
+          </ng-container>
+        </ng-container>
+
+        <!-- Redirect message -->
+        <ng-container *ngIf="countdown === 0">
+          <ng-container *transloco="let t">
+            {{ t('signOut.you-are-now-being-redirected') }}
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Form footer -->
+      <div class="text-secondary text-md mt-8 text-center font-medium">
+        <ng-container *transloco="let t">
+          <span>{{ t('signOut.go-to') }}</span>
+          <a
+            class="text-primary-500 ml-1 hover:underline"
+            [routerLink]="['/sign-in']"
+          >
+            {{ t('signOut.sign-in') }}
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

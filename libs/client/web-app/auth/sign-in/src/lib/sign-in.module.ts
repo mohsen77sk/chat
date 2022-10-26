@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { scopeLoader } from '@chat/client/shared/util/transloco';
+
 import { SignInComponent } from './sign-in.component';
 
 const routes: Routes = [
@@ -27,6 +30,16 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
+    TranslocoModule,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'signIn',
+        loader: scopeLoader((lang: string, root: string) => import(`./${root}/${lang}.json`)),
+      },
+    },
   ],
   declarations: [SignInComponent],
 })
