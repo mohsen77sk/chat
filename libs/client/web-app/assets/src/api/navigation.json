@@ -1,0 +1,10 @@
+[
+    {
+        "id": "panelConversation",
+        "title": "Conversation",
+        "tooltip": "Conversation",
+        "type": "basic",
+        "icon": "forum",
+        "link": "/panel/conversation"
+    }
+]

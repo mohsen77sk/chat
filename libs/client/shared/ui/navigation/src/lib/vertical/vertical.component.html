@@ -1,0 +1,131 @@
+<div class="chat-vertical-navigation-wrapper">
+  <!-- Header -->
+  <div class="chat-vertical-navigation-header">
+    <ng-content select="[chatVerticalNavigationHeader]"></ng-content>
+  </div>
+
+  <!-- Content -->
+  <div
+    class="chat-vertical-navigation-content"
+    chatScrollbar
+    [chatScrollbarOptions]="{ wheelPropagation: inner, suppressScrollX: true }"
+    #navigationContent
+  >
+    <!-- Content header -->
+    <div class="chat-vertical-navigation-content-header">
+      <ng-content select="[chatVerticalNavigationContentHeader]"></ng-content>
+    </div>
+
+    <!-- Items -->
+    <ng-container *ngFor="let item of navigation; trackBy: trackByFn">
+      <!-- Skip the hidden items -->
+      <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+        <!-- Aside -->
+        <ng-container *ngIf="item.type === 'aside'">
+          <chat-vertical-navigation-aside-item
+            [item]="item"
+            [name]="name"
+            [activeItemId]="activeAsideItemId!"
+            [autoCollapse]="autoCollapse"
+            [skipChildren]="true"
+            (click)="toggleAside(item)"
+          ></chat-vertical-navigation-aside-item>
+        </ng-container>
+
+        <!-- Basic -->
+        <ng-container *ngIf="item.type === 'basic'">
+          <chat-vertical-navigation-basic-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-basic-item>
+        </ng-container>
+
+        <!-- Collapsable -->
+        <ng-container *ngIf="item.type === 'collapsable'">
+          <chat-vertical-navigation-collapsable-item
+            [item]="item"
+            [name]="name"
+            [autoCollapse]="autoCollapse"
+          ></chat-vertical-navigation-collapsable-item>
+        </ng-container>
+
+        <!-- Divider -->
+        <ng-container *ngIf="item.type === 'divider'">
+          <chat-vertical-navigation-divider-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-divider-item>
+        </ng-container>
+
+        <!-- Group -->
+        <ng-container *ngIf="item.type === 'group'">
+          <chat-vertical-navigation-group-item
+            [item]="item"
+            [name]="name"
+            [autoCollapse]="autoCollapse"
+          ></chat-vertical-navigation-group-item>
+        </ng-container>
+
+        <!-- Spacer -->
+        <ng-container *ngIf="item.type === 'spacer'">
+          <chat-vertical-navigation-spacer-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-spacer-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <!-- Content footer -->
+    <div class="chat-vertical-navigation-content-footer">
+      <ng-content select="[chatVerticalNavigationContentFooter]"></ng-content>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="chat-vertical-navigation-footer">
+    <ng-content select="[chatVerticalNavigationFooter]"></ng-content>
+  </div>
+</div>
+
+<!-- Aside -->
+<ng-container *ngIf="activeAsideItemId">
+  <div
+    class="chat-vertical-navigation-aside-wrapper"
+    chatScrollbar
+    [chatScrollbarOptions]="{ wheelPropagation: false, suppressScrollX: true }"
+    [@fadeInLeft]="
+      (position === 'start' && checkDirection() === 'ltr') ||
+      (position === 'end' && checkDirection() === 'rtl')
+    "
+    [@fadeInRight]="
+      (position === 'start' && checkDirection() === 'rtl') ||
+      (position === 'end' && checkDirection() === 'ltr')
+    "
+    [@fadeOutLeft]="
+      (position === 'start' && checkDirection() === 'ltr') ||
+      (position === 'end' && checkDirection() === 'rtl')
+    "
+    [@fadeOutRight]="
+      (position === 'start' && checkDirection() === 'rtl') ||
+      (position === 'end' && checkDirection() === 'ltr')
+    "
+  >
+    <!-- Items -->
+    <ng-container *ngFor="let item of navigation; trackBy: trackByFn">
+      <!-- Skip the hidden items -->
+      <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+        <!-- Aside -->
+        <ng-container
+          *ngIf="item.type === 'aside' && item.id === activeAsideItemId"
+        >
+          <chat-vertical-navigation-aside-item
+            [item]="item"
+            [name]="name"
+            [autoCollapse]="autoCollapse"
+          ></chat-vertical-navigation-aside-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>

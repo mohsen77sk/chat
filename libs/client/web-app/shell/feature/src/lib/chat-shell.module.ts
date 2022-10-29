@@ -8,6 +8,7 @@ import { chatShellRoutes } from './chat-shell.routes';
 
 import { AuthCoreModule } from '@chat/client/web-app/shell/core/auth';
 import { UserCoreModule } from '@chat/client/web-app/shell/core/user';
+import { NavigationCoreModule } from '@chat/client/web-app/shell/core/navigation';
 
 import { ChatLayoutModule, layoutConfig } from '@chat/client/web-app/shell/ui/layout';
 
@@ -41,6 +42,7 @@ const routerConfig: ExtraOptions = {
     // Core module of your application
     AuthCoreModule,
     UserCoreModule,
+    NavigationCoreModule,
 
     RouterModule.forRoot(chatShellRoutes, routerConfig),
   ],

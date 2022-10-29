@@ -1,0 +1,661 @@
+/* Variables */
+$chat-vertical-navigation-width: 280px;
+
+chat-vertical-navigation {
+  position: sticky;
+  position: -webkit-sticky;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  top: 0;
+  width: $chat-vertical-navigation-width;
+  min-width: $chat-vertical-navigation-width;
+  max-width: $chat-vertical-navigation-width;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  z-index: 200;
+
+  /* ----------------------------------------------------------------------------------------------------- */
+  /* @ Navigation Drawer
+  /* ----------------------------------------------------------------------------------------------------- */
+
+  /* Animations */
+  &.chat-vertical-navigation-animations-enabled {
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-property: visibility, margin-left, margin-right, transform, width,
+      max-width, min-width;
+
+    /* Wrapper */
+    .chat-vertical-navigation-wrapper {
+      transition-duration: 400ms;
+      transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition-property: width, max-width, min-width;
+    }
+  }
+
+  /* Over mode */
+  &.chat-vertical-navigation-mode-over {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+  }
+
+  /* Start position */
+  &.chat-vertical-navigation-position-start {
+    /* Side mode */
+    &.chat-vertical-navigation-mode-side {
+      margin-left: -$chat-vertical-navigation-width;
+
+      &.chat-vertical-navigation-opened {
+        margin-left: 0;
+      }
+    }
+
+    /* Over mode */
+    &.chat-vertical-navigation-mode-over {
+      left: 0;
+      transform: translate3d(-100%, 0, 0);
+
+      &.chat-vertical-navigation-opened {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Wrapper */
+    .chat-vertical-navigation-wrapper {
+      left: 0;
+    }
+  }
+
+  /* End position */
+  &.chat-vertical-navigation-position-end {
+    /* Side mode */
+    &.chat-vertical-navigation-mode-side {
+      margin-right: -$chat-vertical-navigation-width;
+
+      &.chat-vertical-navigation-opened {
+        margin-right: 0;
+      }
+    }
+
+    /* Over mode */
+    &.chat-vertical-navigation-mode-over {
+      right: 0;
+      transform: translate3d(100%, 0, 0);
+
+      &.chat-vertical-navigation-opened {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Wrapper */
+    .chat-vertical-navigation-wrapper {
+      right: 0;
+    }
+  }
+
+  /* Inner mode */
+  &.chat-vertical-navigation-inner {
+    position: relative;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    box-shadow: none;
+
+    .chat-vertical-navigation-wrapper {
+      position: relative;
+      overflow: visible;
+      height: auto;
+
+      .chat-vertical-navigation-content {
+        overflow: visible !important;
+      }
+    }
+  }
+
+  /* Wrapper */
+  .chat-vertical-navigation-wrapper {
+    position: absolute;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 10;
+    background: inherit;
+    box-shadow: inset -1px 0 0 var(--color-border);
+
+    /* Header */
+    .chat-vertical-navigation-header {
+    }
+
+    /* Content */
+    .chat-vertical-navigation-content {
+      flex: 1 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+
+      /* Divider */
+      > chat-vertical-navigation-divider-item {
+        margin: 24px 0;
+      }
+
+      /* Group */
+      > chat-vertical-navigation-group-item {
+        margin-top: 24px;
+      }
+    }
+
+    /* Footer */
+    .chat-vertical-navigation-footer {
+    }
+  }
+
+  /* Aside wrapper */
+  .chat-vertical-navigation-aside-wrapper {
+    position: absolute;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    left: $chat-vertical-navigation-width;
+    width: $chat-vertical-navigation-width;
+    height: 100%;
+    z-index: 5;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition-duration: 400ms;
+    transition-property: left, right;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: inherit;
+
+    > chat-vertical-navigation-aside-item {
+      padding: 24px 0;
+
+      /* First item of the aside */
+      > .chat-vertical-navigation-item-wrapper {
+        display: none !important;
+      }
+    }
+  }
+
+  &.chat-vertical-navigation-position-end {
+    .chat-vertical-navigation-aside-wrapper {
+      left: auto;
+      right: $chat-vertical-navigation-width;
+    }
+  }
+
+  /* ----------------------------------------------------------------------------------------------------- */
+  /* @ Navigation Items
+  /* ----------------------------------------------------------------------------------------------------- */
+
+  /* Navigation items common */
+  chat-vertical-navigation-aside-item,
+  chat-vertical-navigation-basic-item,
+  chat-vertical-navigation-collapsable-item,
+  chat-vertical-navigation-divider-item,
+  chat-vertical-navigation-group-item,
+  chat-vertical-navigation-spacer-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    .chat-vertical-navigation-item-wrapper {
+      .chat-vertical-navigation-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 20px;
+        text-decoration: none;
+        border-radius: 6px;
+
+        /* Disabled state */
+        &.chat-vertical-navigation-item-disabled {
+          cursor: default;
+          opacity: 0.4;
+        }
+
+        .chat-vertical-navigation-item-icon {
+          margin-right: 16px;
+        }
+
+        .chat-vertical-navigation-item-title-wrapper {
+          .chat-vertical-navigation-item-subtitle {
+            font-size: 11px;
+            line-height: 1.5;
+          }
+        }
+
+        .chat-vertical-navigation-item-badge {
+          margin-left: auto;
+
+          .chat-vertical-navigation-item-badge-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  /* Aside, Basic, Collapsable, Group */
+  chat-vertical-navigation-aside-item,
+  chat-vertical-navigation-basic-item,
+  chat-vertical-navigation-collapsable-item,
+  chat-vertical-navigation-group-item {
+    > .chat-vertical-navigation-item-wrapper {
+      margin: 0 12px;
+    }
+  }
+
+  /* Aside, Basic, Collapsable */
+  chat-vertical-navigation-aside-item,
+  chat-vertical-navigation-basic-item,
+  chat-vertical-navigation-collapsable-item {
+    margin-bottom: 4px;
+
+    .chat-vertical-navigation-item {
+      cursor: pointer;
+    }
+  }
+
+  /* Aside */
+  chat-vertical-navigation-aside-item {
+  }
+
+  /* Basic */
+  chat-vertical-navigation-basic-item {
+  }
+
+  /* Collapsable */
+  chat-vertical-navigation-collapsable-item {
+    > .chat-vertical-navigation-item-wrapper {
+      .chat-vertical-navigation-item {
+        .chat-vertical-navigation-item-badge {
+          + .chat-vertical-navigation-item-arrow {
+            margin-left: 8px;
+          }
+        }
+
+        .chat-vertical-navigation-item-arrow {
+          height: 20px;
+          line-height: 20px;
+          margin-left: auto;
+          transition: transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1),
+            color 375ms cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+      }
+    }
+
+    &.chat-vertical-navigation-item-expanded {
+      > .chat-vertical-navigation-item-wrapper {
+        .chat-vertical-navigation-item {
+          .chat-vertical-navigation-item-arrow {
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
+
+    > .chat-vertical-navigation-item-children {
+      margin-top: 6px;
+
+      > *:last-child {
+        padding-bottom: 6px;
+
+        > .chat-vertical-navigation-item-children {
+          > *:last-child {
+            padding-bottom: 0;
+          }
+        }
+      }
+
+      .chat-vertical-navigation-item {
+        padding: 10px 16px;
+      }
+    }
+
+    /* 1st level */
+    .chat-vertical-navigation-item-children {
+      overflow: hidden;
+
+      .chat-vertical-navigation-item {
+        padding-left: 56px;
+      }
+
+      /* 2nd level */
+      .chat-vertical-navigation-item-children {
+        .chat-vertical-navigation-item {
+          padding-left: 72px;
+        }
+
+        /* 3rd level */
+        .chat-vertical-navigation-item-children {
+          .chat-vertical-navigation-item {
+            padding-left: 88px;
+          }
+
+          /* 4th level */
+          .chat-vertical-navigation-item-children {
+            .chat-vertical-navigation-item {
+              padding-left: 104px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Divider */
+  chat-vertical-navigation-divider-item {
+    margin: 12px 0;
+
+    .chat-vertical-navigation-item-wrapper {
+      height: 1px;
+      box-shadow: 0 1px 0 0;
+    }
+  }
+
+  /* Group */
+  chat-vertical-navigation-group-item {
+    > .chat-vertical-navigation-item-wrapper {
+      .chat-vertical-navigation-item {
+        .chat-vertical-navigation-item-badge,
+        .chat-vertical-navigation-item-icon {
+          display: none !important;
+        }
+
+        .chat-vertical-navigation-item-title-wrapper {
+          .chat-vertical-navigation-item-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+
+  /* Spacer */
+  chat-vertical-navigation-spacer-item {
+    margin: 6px 0;
+  }
+}
+
+[dir='rtl'] {
+  chat-vertical-navigation {
+    /* Start position */
+    &.chat-vertical-navigation-position-start {
+      /* Side mode */
+      &.chat-vertical-navigation-mode-side {
+        margin-left: unset;
+        margin-right: -$chat-vertical-navigation-width;
+
+        &.chat-vertical-navigation-opened {
+          margin-left: unset;
+          margin-right: 0;
+        }
+      }
+
+      /* Over mode */
+      &.chat-vertical-navigation-mode-over {
+        left: unset;
+        right: 0;
+        transform: translate3d(100%, 0, 0);
+
+        &.chat-vertical-navigation-opened {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      /* Wrapper */
+      .chat-vertical-navigation-wrapper {
+        left: unset;
+        right: 0;
+      }
+    }
+
+    /* End position */
+    &.chat-vertical-navigation-position-end {
+      /* Side mode */
+      &.chat-vertical-navigation-mode-side {
+        margin-right: unset;
+        margin-left: -$chat-vertical-navigation-width;
+
+        &.chat-vertical-navigation-opened {
+          margin-right: unset;
+          margin-left: 0;
+        }
+      }
+
+      /* Over mode */
+      &.chat-vertical-navigation-mode-over {
+        right: unset;
+        left: 0;
+        transform: translate3d(-100%, 0, 0);
+
+        &.chat-vertical-navigation-opened {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      /* Wrapper */
+      .chat-vertical-navigation-wrapper {
+        right: unset;
+        left: 0;
+      }
+    }
+
+    /* Wrapper */
+    .chat-vertical-navigation-wrapper {
+      box-shadow: inset 1px 0 0 var(--color-border);
+    }
+
+    /* Aside wrapper */
+    .chat-vertical-navigation-aside-wrapper {
+      left: unset;
+      right: $chat-vertical-navigation-width;
+    }
+
+    &.chat-vertical-navigation-position-end {
+      .chat-vertical-navigation-aside-wrapper {
+        right: auto;
+        left: $chat-vertical-navigation-width;
+      }
+    }
+
+    /* Navigation items common */
+    chat-vertical-navigation-aside-item,
+    chat-vertical-navigation-basic-item,
+    chat-vertical-navigation-collapsable-item,
+    chat-vertical-navigation-divider-item,
+    chat-vertical-navigation-group-item,
+    chat-vertical-navigation-spacer-item {
+      .chat-vertical-navigation-item-wrapper {
+        .chat-vertical-navigation-item {
+          .chat-vertical-navigation-item-icon {
+            margin-right: unset;
+            margin-left: 16px;
+          }
+          .chat-vertical-navigation-item-badge {
+            margin-left: unset;
+            margin-right: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* @ Overlay
+/* ----------------------------------------------------------------------------------------------------- */
+.chat-vertical-navigation-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 170;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  + .chat-vertical-navigation-aside-overlay {
+    background-color: transparent;
+  }
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* @ Aside overlay
+/* ----------------------------------------------------------------------------------------------------- */
+.chat-vertical-navigation-aside-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 169;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
+/* @ Navigation Items Colors
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* Navigation items common */
+chat-vertical-navigation-aside-item,
+chat-vertical-navigation-basic-item,
+chat-vertical-navigation-collapsable-item,
+chat-vertical-navigation-group-item {
+  .chat-vertical-navigation-item-wrapper {
+    .chat-vertical-navigation-item {
+      color: currentColor;
+
+      .chat-vertical-navigation-item-icon {
+        @apply text-current opacity-60;
+      }
+
+      .chat-vertical-navigation-item-title-wrapper {
+        .chat-vertical-navigation-item-title {
+          @apply text-current opacity-80;
+        }
+
+        .chat-vertical-navigation-item-subtitle {
+          @apply text-current opacity-50;
+        }
+      }
+    }
+  }
+}
+
+/* Aside, Basic, Collapsable */
+chat-vertical-navigation-aside-item,
+chat-vertical-navigation-basic-item,
+chat-vertical-navigation-collapsable-item {
+  > .chat-vertical-navigation-item-wrapper {
+    .chat-vertical-navigation-item {
+      /* Active state */
+      &:not(.chat-vertical-navigation-item-disabled) {
+        &.chat-vertical-navigation-item-active,
+        &.chat-vertical-navigation-item-active-forced {
+          @apply dark:bg-opacity-12 bg-gray-800 bg-opacity-5 dark:bg-white;
+
+          .chat-vertical-navigation-item-icon {
+            @apply opacity-100;
+          }
+
+          .chat-vertical-navigation-item-title {
+            @apply opacity-100;
+          }
+
+          .chat-vertical-navigation-item-subtitle {
+            @apply opacity-100;
+          }
+        }
+      }
+
+      /* Hover state */
+      &:not(.chat-vertical-navigation-item-active-forced):not(.chat-vertical-navigation-item-active):not(.chat-vertical-navigation-item-disabled) {
+        &:hover {
+          @apply dark:bg-opacity-12 bg-gray-800 bg-opacity-5 dark:bg-white;
+
+          .chat-vertical-navigation-item-icon {
+            @apply opacity-100;
+          }
+
+          .chat-vertical-navigation-item-title,
+          .chat-vertical-navigation-item-arrow {
+            @apply opacity-100;
+          }
+
+          .chat-vertical-navigation-item-subtitle {
+            @apply opacity-100;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Collapsable */
+chat-vertical-navigation-collapsable-item {
+  /* Expanded state */
+  &.chat-vertical-navigation-item-expanded {
+    > .chat-vertical-navigation-item-wrapper {
+      .chat-vertical-navigation-item {
+        .chat-vertical-navigation-item-icon {
+          @apply opacity-100;
+        }
+
+        .chat-vertical-navigation-item-title,
+        .chat-vertical-navigation-item-arrow {
+          @apply opacity-100;
+        }
+
+        .chat-vertical-navigation-item-subtitle {
+          @apply opacity-100;
+        }
+      }
+    }
+  }
+}
+
+/* Group */
+chat-vertical-navigation-group-item {
+  > .chat-vertical-navigation-item-wrapper {
+    .chat-vertical-navigation-item {
+      .chat-vertical-navigation-item-title-wrapper {
+        .chat-vertical-navigation-item-title {
+          @apply text-primary-600 dark:text-primary-400 opacity-100;
+        }
+      }
+    }
+  }
+}

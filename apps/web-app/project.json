@@ -25,6 +25,11 @@
             "input": "libs/client/shared/assets/src",
             "output": "assets"
           },
+          {
+            "glob": "**/*",
+            "input": "libs/client/web-app/assets/src",
+            "output": "assets"
+          },
           "apps/web-app/src/manifest.webmanifest"
         ],
         "styles": [

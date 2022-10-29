@@ -1,3 +1,47 @@
+<!-- Side Navigation -->
+<chat-vertical-navigation
+  class="bg-card dark:bg-gray-900 print:hidden"
+  [appearance]="'thin'"
+  [mode]="'side'"
+  [name]="'mainNavigation'"
+  [navigation]="navigation"
+  [opened]="true"
+>
+  <!-- Navigation header hook -->
+  <ng-container chatVerticalNavigationContentHeader> </ng-container>
+
+  <!-- Navigation footer hook -->
+  <ng-container chatVerticalNavigationFooter>
+    <div class="flex h-12 items-center justify-center">
+      <button
+        mat-icon-button
+        [matTooltip]="'layout.settings' | transloco"
+        (click)="(null)"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">settings</mat-icon>
+      </button>
+    </div>
+    <div class="flex h-12 items-center justify-center">
+      <button
+        mat-icon-button
+        [matTooltip]="'layout.profile' | transloco"
+        (click)="(null)"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">account_circle</mat-icon>
+      </button>
+    </div>
+    <div class="mb-3 flex h-12 items-center justify-center">
+      <button
+        mat-icon-button
+        [matTooltip]="'layout.sign-out' | transloco"
+        (click)="signOut()"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">logout</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</chat-vertical-navigation>
+
 <!-- Wrapper -->
 <div class="flex w-full flex-auto flex-col">
   <!-- Content -->

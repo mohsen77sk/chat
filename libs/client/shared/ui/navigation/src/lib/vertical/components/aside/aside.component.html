@@ -1,0 +1,102 @@
+<div
+  class="chat-vertical-navigation-item-wrapper"
+  [class.chat-vertical-navigation-item-has-subtitle]="!!item.subtitle"
+  [ngClass]="item.classes?.wrapper!"
+>
+  <div
+    class="chat-vertical-navigation-item"
+    [ngClass]="{
+      'chat-vertical-navigation-item-active': active,
+      'chat-vertical-navigation-item-disabled': item.disabled,
+      'chat-vertical-navigation-item-active-forced': item.active
+    }"
+    [matTooltip]="item.tooltip || ''"
+  >
+    <!-- Icon -->
+    <ng-container *ngIf="item.icon">
+      <mat-icon
+        class="mat-icon-rtl-mirror chat-vertical-navigation-item-icon"
+        [ngClass]="item.classes?.icon!"
+        [innerText]="item.icon"
+      ></mat-icon>
+    </ng-container>
+
+    <!-- Title & Subtitle -->
+    <div class="chat-vertical-navigation-item-title-wrapper">
+      <div class="chat-vertical-navigation-item-title">
+        <span [ngClass]="item.classes?.title!">
+          {{ item.title }}
+        </span>
+      </div>
+      <ng-container *ngIf="item.subtitle">
+        <div class="chat-vertical-navigation-item-subtitle">
+          <span [ngClass]="item.classes?.subtitle!">
+            {{ item.subtitle }}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Badge -->
+    <ng-container *ngIf="item.badge">
+      <div class="chat-vertical-navigation-item-badge">
+        <div
+          class="chat-vertical-navigation-item-badge-content"
+          [ngClass]="item.badge.classes!"
+        >
+          {{ item.badge.title }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-container *ngIf="!skipChildren">
+  <div class="chat-vertical-navigation-item-children">
+    <ng-container *ngFor="let item of item.children; trackBy: trackByFn">
+      <!-- Skip the hidden items -->
+      <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+        <!-- Basic -->
+        <ng-container *ngIf="item.type === 'basic'">
+          <chat-vertical-navigation-basic-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-basic-item>
+        </ng-container>
+
+        <!-- Collapsable -->
+        <ng-container *ngIf="item.type === 'collapsable'">
+          <chat-vertical-navigation-collapsable-item
+            [item]="item"
+            [name]="name"
+            [autoCollapse]="autoCollapse"
+          ></chat-vertical-navigation-collapsable-item>
+        </ng-container>
+
+        <!-- Divider -->
+        <ng-container *ngIf="item.type === 'divider'">
+          <chat-vertical-navigation-divider-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-divider-item>
+        </ng-container>
+
+        <!-- Group -->
+        <ng-container *ngIf="item.type === 'group'">
+          <chat-vertical-navigation-group-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-group-item>
+        </ng-container>
+
+        <!-- Spacer -->
+        <ng-container *ngIf="item.type === 'spacer'">
+          <chat-vertical-navigation-spacer-item
+            [item]="item"
+            [name]="name"
+          ></chat-vertical-navigation-spacer-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
