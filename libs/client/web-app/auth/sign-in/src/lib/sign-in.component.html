@@ -4,7 +4,7 @@
   >
     <div class="max-w-80 mx-auto w-full sm:mx-0 sm:w-80">
       <!-- Title -->
-      <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">
+      <div class="text-4xl font-extrabold leading-tight tracking-tight">
         <ng-container *transloco="let t">
           {{ t('signIn.sign-in') }}
         </ng-container>
@@ -95,11 +95,9 @@
           [disabled]="signInForm.disabled"
           (click)="signIn()"
         >
-          <span *ngIf="!signInForm.disabled">
-            <ng-container *transloco="let t">
-              {{ t('signIn.sign-in') }}
-            </ng-container>
-          </span>
+          <ng-container *transloco="let t; read: 'signIn'">
+            {{ t('sign-in') }}
+          </ng-container>
         </button>
       </form>
     </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@chat/client/web-app/shell/core/auth';
 
 @Component({
   selector: 'chat-sign-in',
@@ -15,7 +17,12 @@ export class SignInComponent implements OnInit {
   /**
    * Constructor
    */
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _formBuilder: FormBuilder,
+    private _authService: AuthService
+  ) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -47,5 +54,26 @@ export class SignInComponent implements OnInit {
 
     // Disable the form
     this.signInForm.disable();
+
+    // Sign in
+    this._authService.signIn(this.signInForm.value).subscribe(
+      () => {
+        // Set the redirect url.
+        // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
+        // to the correct page after a successful sign in. This way, that url can be set via
+        // routing file and we don't have to touch here.
+        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+
+        // Navigate to the redirect url
+        this._router.navigateByUrl(redirectURL);
+      },
+      (response) => {
+        // Re-enable the form
+        this.signInForm.enable();
+
+        // Reset the form
+        this.signInNgForm.resetForm();
+      }
+    );
   }
 }
