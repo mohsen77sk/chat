@@ -1,0 +1,57 @@
+<div
+  class="chat-alert-container"
+  *ngIf="!dismissible || (dismissible && !dismissed)"
+  [@fadeIn]="!dismissed"
+  [@fadeOut]="!dismissed"
+>
+  <!-- Border -->
+  <div class="chat-alert-border" *ngIf="appearance === 'border'"></div>
+
+  <!-- Icon -->
+  <div class="chat-alert-icon" *ngIf="showIcon">
+    <!-- Custom icon -->
+    <div class="chat-alert-custom-icon">
+      <ng-content select="[chatAlertIcon]"></ng-content>
+    </div>
+
+    <!-- Default icons -->
+    <div class="chat-alert-default-icon">
+      <mat-icon *ngIf="type === 'primary'">check_circle</mat-icon>
+
+      <mat-icon *ngIf="type === 'accent'">check_circle</mat-icon>
+
+      <mat-icon *ngIf="type === 'warn'">cancel</mat-icon>
+
+      <mat-icon *ngIf="type === 'basic'">check_circle</mat-icon>
+
+      <mat-icon *ngIf="type === 'info'">info</mat-icon>
+
+      <mat-icon *ngIf="type === 'success'">check_circle</mat-icon>
+
+      <mat-icon *ngIf="type === 'warning'">report_problem</mat-icon>
+
+      <mat-icon *ngIf="type === 'error'">cancel</mat-icon>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="chat-alert-content">
+    <div class="chat-alert-title">
+      <ng-content select="[chatAlertTitle]"></ng-content>
+    </div>
+
+    <div class="chat-alert-message">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <!-- Dismiss button -->
+  <button
+    type="button"
+    class="chat-alert-dismiss-button"
+    mat-icon-button
+    (click)="dismiss()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

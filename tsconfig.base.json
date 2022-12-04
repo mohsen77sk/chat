@@ -22,6 +22,9 @@
       "@chat/client/shared/app-config": [
         "libs/client/shared/app-config/src/index.ts"
       ],
+      "@chat/client/shared/ui/alert": [
+        "libs/client/shared/ui/alert/src/index.ts"
+      ],
       "@chat/client/shared/ui/navigation": [
         "libs/client/shared/ui/navigation/src/index.ts"
       ],
