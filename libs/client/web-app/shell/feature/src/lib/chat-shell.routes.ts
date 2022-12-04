@@ -8,7 +8,7 @@ import { InitialDataResolver } from './chat-shell.resolvers';
 
 export const chatShellRoutes: Route[] = [
   // Redirect empty path to '/panel'
-  { path: '', pathMatch: 'full', redirectTo: 'panel/conversation' },
+  { path: '', pathMatch: 'full', redirectTo: 'panel/conversations' },
 
   // Redirect signed in user to the '/panel'
   //
@@ -18,7 +18,7 @@ export const chatShellRoutes: Route[] = [
   {
     path: 'signed-in-redirect',
     pathMatch: 'full',
-    redirectTo: 'panel/conversation',
+    redirectTo: 'panel/conversations',
   },
 
   // Auth routes for guests
@@ -76,10 +76,10 @@ export const chatShellRoutes: Route[] = [
         path: 'panel',
         children: [
           {
-            path: 'conversation',
+            path: 'conversations',
             loadChildren: () =>
-              import('@chat/client/web-app/panel/conversation').then(
-                (m) => m.ConversationModule
+              import('@chat/client/web-app/panel/conversations').then(
+                (m) => m.ConversationsModule
               ),
           },
         ],

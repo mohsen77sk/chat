@@ -13,33 +13,38 @@
           <input
             matInput
             autocomplete="off"
-            *transloco="let t; read: 'conversion'"
+            *transloco="let t; read: 'conversations'"
             [placeholder]="t('search')"
           />
         </mat-form-field>
       </div>
 
-      <!-- Conversion list -->
-      <ng-container *ngIf="conversions$ | async as conversions">
+      <!-- conversations list -->
+      <ng-container *ngIf="conversations$ | async as conversations">
         <!-- Rows -->
-        <ng-container *ngIf="conversions.length > 0; else noConversion">
+        <ng-container *ngIf="conversations.length > 0; else noConversations">
           <ng-container
-            *ngFor="let conversion of conversions; trackBy: trackByFn"
+            *ngFor="let conversation of conversations; trackBy: trackByFn"
           ></ng-container>
         </ng-container>
       </ng-container>
 
-      <!-- No conversions template -->
-      <ng-template #noConversion>
+      <!-- No conversations template -->
+      <ng-template #noConversations>
         <div
           class="flex h-full flex-auto flex-col items-center justify-center"
-          *transloco="let t; read: 'conversion'"
+          *transloco="let t; read: 'conversations'"
         >
-          <mat-icon class="mat-icon-rtl-mirror">forum</mat-icon>
+          <!-- prettier-ignore -->
+          <mat-icon class="icon-size-24 mat-icon-rtl-mirror">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          </mat-icon>
           <div class="mt-4 text-2xl font-semibold tracking-tight">
             {{ t('welcome') }}
           </div>
-          <div class="text-secondary mt-4 text-lg font-semibold tracking-tight">
+          <div class="text-secondary mt-1 tracking-tight">
             {{ t('welcome-message') }}
           </div>
         </div>

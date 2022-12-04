@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'client-web-app-panel-conversation',
+  displayName: 'client-web-app-panel-conversations',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -10,7 +10,7 @@ export default {
     },
   },
   coverageDirectory:
-    '../../../../../coverage/libs/client/web-app/panel/conversation',
+    '../../../../../coverage/libs/client/web-app/panel/conversations',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

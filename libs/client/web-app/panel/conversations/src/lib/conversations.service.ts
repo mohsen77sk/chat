@@ -2,14 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '@chat/client/shared/app-config';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { Conversation } from './conversation.types';
+import { Conversations } from './conversations.types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConversationService {
-  private _conversation: BehaviorSubject<Conversation[] | null> =
-    new BehaviorSubject<Conversation[] | null>(null);
+export class ConversationsService {
+  private _conversations: BehaviorSubject<Conversations[] | null> =
+    new BehaviorSubject<Conversations[] | null>(null);
 
   /**
    * Constructor
@@ -26,8 +26,8 @@ export class ConversationService {
   /**
    * Getter for conversion
    */
-  get conversation$(): Observable<Conversation[] | null> {
-    return this._conversation.asObservable();
+  get conversations$(): Observable<Conversations[] | null> {
+    return this._conversations.asObservable();
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -39,12 +39,14 @@ export class ConversationService {
    *
    * @param search
    */
-  getConversation(search: string = ''): Observable<{ items: Conversation[] }> {
+  getConversations(
+    search: string = ''
+  ): Observable<{ items: Conversations[] }> {
     const params = new HttpParams();
     if (search) params.append('search', search);
 
     return this._httpClient
-      .get<{ data: Conversation[] }>(
+      .get<{ data: Conversations[] }>(
         `${this._appConfig.apiEndpoint}/conversation`,
         { params }
       )
@@ -53,7 +55,7 @@ export class ConversationService {
           items: response.data,
         })),
         tap((response) => {
-          this._conversation.next(response.items);
+          this._conversations.next(response.items);
         })
       );
   }

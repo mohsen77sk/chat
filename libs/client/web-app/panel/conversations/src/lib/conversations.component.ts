@@ -7,18 +7,18 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { ConversationService } from './conversation.service';
-import { Conversation } from './conversation.types';
+import { ConversationsService } from './conversations.service';
+import { Conversations } from './conversations.types';
 
 @Component({
-  selector: 'chat-conversation',
-  templateUrl: './conversation.component.html',
-  styleUrls: ['./conversation.component.scss'],
+  selector: 'chat-conversations',
+  templateUrl: './conversations.component.html',
+  styleUrls: ['./conversations.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConversationComponent implements OnInit, OnDestroy {
-  conversions$!: Observable<Conversation[] | null>;
+export class ConversationsComponent implements OnInit, OnDestroy {
+  conversations$!: Observable<Conversations[] | null>;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -26,7 +26,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
    * Constructor
    */
   constructor(
-    private _conversationService: ConversationService,
+    private _conversationsService: ConversationsService,
     private _changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -38,8 +38,8 @@ export class ConversationComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    // Get the conversions
-    this.conversions$ = this._conversationService.conversation$;
+    // Get the conversations
+    this.conversations$ = this._conversationsService.conversations$;
   }
 
   /**

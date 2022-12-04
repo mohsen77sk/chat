@@ -5,8 +5,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ConversationService } from './conversation.service';
-import { Conversation } from './conversation.types';
+import { ConversationsService } from './conversations.service';
+import { Conversations } from './conversations.types';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class ConversationsResolver implements Resolve<any> {
   /**
    * Constructor
    */
-  constructor(private _conversationService: ConversationService) {}
+  constructor(private _conversationsService: ConversationsService) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
@@ -30,7 +30,7 @@ export class ConversationsResolver implements Resolve<any> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<{ items: Conversation[] }> {
-    return this._conversationService.getConversation();
+  ): Observable<{ items: Conversations[] }> {
+    return this._conversationsService.getConversations();
   }
 }

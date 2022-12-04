@@ -1,4 +1,4 @@
-export interface Conversation {
+export interface Conversations {
   id: string;
   name?: string;
   avatar?: string;
@@ -6,10 +6,10 @@ export interface Conversation {
   muted?: boolean;
   lastMessage?: string;
   lastMessageAt?: Date;
-  messages?: ConversationMessage[];
+  messages?: ConversationsMessage[];
 }
 
-export interface ConversationMessage {
+export interface ConversationsMessage {
   id: string;
   contactId?: string;
   isMine?: boolean;
