@@ -25,6 +25,18 @@
         </a>
       </div>
 
+      <!-- Alert -->
+      <chat-alert
+        class="mt-8 -mb-4"
+        *ngIf="showAlert"
+        [appearance]="'outline'"
+        [showIcon]="false"
+        [type]="alert.type"
+        [@shake]="alert.type === 'error'"
+      >
+        {{ alert.message }}
+      </chat-alert>
+
       <!-- Sign in form -->
       <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
         <!-- Username field -->
