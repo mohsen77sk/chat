@@ -11,8 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { scopeLoader } from '@chat/client/shared/util/transloco';
 
-import { ConversationsComponent } from './conversations.component';
 import { ConversationsResolver } from './conversations.resolvers';
+import { ConversationsComponent } from './conversations.component';
+import { EmptyConversationComponent } from './empty-conversation/empty-conversation.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   {
@@ -22,15 +24,16 @@ const routes: Routes = [
       conversions: ConversationsResolver,
     },
     children: [
-      // {
-      //   path: '',
-      //   pathMatch: 'full',
-      //   component: ConversationsComponent,
-      // },
-      // {
-      //   path: ':id',
-      //   component: ConversationsComponent,
-      // },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: EmptyConversationComponent,
+      },
+      {
+        path: ':id',
+        component: ConversationComponent,
+        resolve: {},
+      },
     ],
   },
 ];
@@ -57,6 +60,10 @@ const routes: Routes = [
       },
     },
   ],
-  declarations: [ConversationsComponent],
+  declarations: [
+    ConversationsComponent,
+    EmptyConversationComponent,
+    ConversationComponent,
+  ],
 })
 export class ConversationsModule {}

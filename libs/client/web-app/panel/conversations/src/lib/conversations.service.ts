@@ -46,16 +46,17 @@ export class ConversationsService {
     if (search) params.append('search', search);
 
     return this._httpClient
-      .get<{ data: Conversations[] }>(
+      .get<{ conversations: Conversations[] }>(
         `${this._appConfig.apiEndpoint}/conversation`,
         { params }
       )
       .pipe(
         map((response) => ({
-          items: response.data,
+          items: response.conversations,
         })),
         tap((response) => {
           this._conversations.next(response.items);
+          // this._conversations.next([]);
         })
       );
   }

@@ -19,6 +19,7 @@ import { Conversations } from './conversations.types';
 })
 export class ConversationsComponent implements OnInit, OnDestroy {
   conversations$!: Observable<Conversations[] | null>;
+  selectedConversation!: Conversations;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 

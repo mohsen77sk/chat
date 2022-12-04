@@ -1,5 +1,6 @@
 {
   "search": "Search chat or contact",
   "welcome": "Welcome",
-  "welcome-message": "Start messaging by tapping the new chat button"
+  "welcome-message": "Start messaging by tapping the new chat button",
+  "not-select-conversation-message": "Select a conversation or start a new chat"
 }

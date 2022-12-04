@@ -1,31 +1,85 @@
 <div class="absolute inset-0 flex min-w-0 flex-col overflow-hidden">
   <!-- Main -->
   <div class="flex flex-auto overflow-hidden">
+    <!-- Conversations list -->
     <div
       class="lg:min-w-100 lg:max-w-100 bg-card relative flex w-full min-w-0 flex-auto flex-col dark:bg-transparent"
     >
       <!-- Header -->
-      <div class="flex-0 flex flex-col border-b py-4 px-8">
+      <div
+        class="flex-0 flex flex-col border-b py-4 px-8"
+        *transloco="let t; read: 'conversations'"
+      >
         <mat-form-field
           class="chat-mat-no-subscript chat-mat-rounded chat-mat-dense w-full"
         >
           <mat-icon matPrefix class="icon-size-5">search</mat-icon>
-          <input
-            matInput
-            autocomplete="off"
-            *transloco="let t; read: 'conversations'"
-            [placeholder]="t('search')"
-          />
+          <input matInput autocomplete="off" [placeholder]="t('search')" />
         </mat-form-field>
       </div>
 
-      <!-- conversations list -->
+      <!-- List -->
       <ng-container *ngIf="conversations$ | async as conversations">
         <!-- Rows -->
         <ng-container *ngIf="conversations.length > 0; else noConversations">
           <ng-container
             *ngFor="let conversation of conversations; trackBy: trackByFn"
-          ></ng-container>
+          >
+            <a
+              class="z-20 flex cursor-pointer items-center border-b py-5 px-8"
+              [ngClass]="{
+                'dark:hover:bg-hover hover:bg-gray-100':
+                  !selectedConversation ||
+                  selectedConversation.id !== conversation.id,
+                'bg-primary-50 dark:bg-hover':
+                  selectedConversation &&
+                  selectedConversation.id === conversation.id
+              }"
+              [routerLink]="[conversation.id]"
+            >
+              <div
+                class="flex-0 relative flex h-10 w-10 items-center justify-center"
+              >
+                <ng-container *ngIf="conversation.unreadCount ?? 0 > 0">
+                  <div
+                    class="flex-0 ring-bg-card bg-primary dark:bg-primary-500 text-on-primary absolute bottom-0 right-0 -ml-0.5 h-2 w-2 rounded-full ring-2 dark:ring-gray-900"
+                    [class.ring-primary-50]="
+                      selectedConversation &&
+                      selectedConversation.id === conversation.id
+                    "
+                  ></div>
+                </ng-container>
+                <ng-container *ngIf="conversation.avatar">
+                  <img
+                    class="h-full w-full rounded-full object-cover"
+                    [src]="conversation.avatar"
+                    alt="Contact avatar"
+                  />
+                </ng-container>
+                <ng-container *ngIf="!conversation.avatar">
+                  <div
+                    class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-lg uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                  >
+                    {{ conversation.name?.charAt(0) }}
+                  </div>
+                </ng-container>
+              </div>
+              <div class="ml-4 min-w-0">
+                <div class="truncate font-medium leading-5">
+                  {{ conversation.name }}
+                </div>
+                <div
+                  class="text-secondary truncate leading-5"
+                  [class.text-primary]="conversation.unreadCount ?? 0 > 0"
+                  [class.dark:text-primary-500]="
+                    conversation.unreadCount ?? 0 > 0
+                  "
+                >
+                  {{ conversation.lastMessage ?? '' }}
+                </div>
+              </div>
+            </a>
+          </ng-container>
         </ng-container>
       </ng-container>
 
@@ -50,5 +104,21 @@
         </div>
       </ng-template>
     </div>
+
+    <!-- Conversation -->
+    <ng-container *ngIf="conversations$ | async as conversations">
+      <ng-container *ngIf="conversations.length > 0">
+        <div
+          class="flex-auto ltr:border-l rtl:border-r"
+          [ngClass]="{
+            'absolute inset-0 z-20 flex lg:static lg:inset-auto':
+              selectedConversation && selectedConversation.id,
+            'hidden lg:flex': !selectedConversation || !selectedConversation.id
+          }"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
