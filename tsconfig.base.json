@@ -55,6 +55,9 @@
       "@chat/client/web-app/auth/sign-out": [
         "libs/client/web-app/auth/sign-out/src/index.ts"
       ],
+      "@chat/client/web-app/panel/conversation": [
+        "libs/client/web-app/panel/conversation/src/index.ts"
+      ],
       "@chat/client/web-app/shell/core/auth": [
         "libs/client/web-app/shell/core/auth/src/index.ts"
       ],

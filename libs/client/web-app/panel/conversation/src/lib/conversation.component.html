@@ -1,0 +1,49 @@
+<div class="absolute inset-0 flex min-w-0 flex-col overflow-hidden">
+  <!-- Main -->
+  <div class="flex flex-auto overflow-hidden">
+    <div
+      class="lg:min-w-100 lg:max-w-100 bg-card relative flex w-full min-w-0 flex-auto flex-col dark:bg-transparent"
+    >
+      <!-- Header -->
+      <div class="flex-0 flex flex-col border-b py-4 px-8">
+        <mat-form-field
+          class="chat-mat-no-subscript chat-mat-rounded chat-mat-dense w-full"
+        >
+          <mat-icon matPrefix class="icon-size-5">search</mat-icon>
+          <input
+            matInput
+            autocomplete="off"
+            *transloco="let t; read: 'conversion'"
+            [placeholder]="t('search')"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Conversion list -->
+      <ng-container *ngIf="conversions$ | async as conversions">
+        <!-- Rows -->
+        <ng-container *ngIf="conversions.length > 0; else noConversion">
+          <ng-container
+            *ngFor="let conversion of conversions; trackBy: trackByFn"
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!-- No conversions template -->
+      <ng-template #noConversion>
+        <div
+          class="flex h-full flex-auto flex-col items-center justify-center"
+          *transloco="let t; read: 'conversion'"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">forum</mat-icon>
+          <div class="mt-4 text-2xl font-semibold tracking-tight">
+            {{ t('welcome') }}
+          </div>
+          <div class="text-secondary mt-4 text-lg font-semibold tracking-tight">
+            {{ t('welcome-message') }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

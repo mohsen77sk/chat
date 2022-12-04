@@ -8,7 +8,7 @@ import { InitialDataResolver } from './chat-shell.resolvers';
 
 export const chatShellRoutes: Route[] = [
   // Redirect empty path to '/panel'
-  { path: '', pathMatch: 'full', redirectTo: 'panel' },
+  { path: '', pathMatch: 'full', redirectTo: 'panel/conversation' },
 
   // Redirect signed in user to the '/panel'
   //
@@ -18,7 +18,7 @@ export const chatShellRoutes: Route[] = [
   {
     path: 'signed-in-redirect',
     pathMatch: 'full',
-    redirectTo: 'panel',
+    redirectTo: 'panel/conversation',
   },
 
   // Auth routes for guests
@@ -33,7 +33,10 @@ export const chatShellRoutes: Route[] = [
     children: [
       {
         path: 'sign-in',
-        loadChildren: () => import('@chat/client/web-app/auth/sign-in').then((m) => m.AuthSignInModule),
+        loadChildren: () =>
+          import('@chat/client/web-app/auth/sign-in').then(
+            (m) => m.AuthSignInModule
+          ),
       },
     ],
   },
@@ -50,7 +53,10 @@ export const chatShellRoutes: Route[] = [
     children: [
       {
         path: 'sign-out',
-        loadChildren: () => import('@chat/client/web-app/auth/sign-out').then((m) => m.AuthSignOutModule),
+        loadChildren: () =>
+          import('@chat/client/web-app/auth/sign-out').then(
+            (m) => m.AuthSignOutModule
+          ),
       },
     ],
   },
@@ -68,7 +74,15 @@ export const chatShellRoutes: Route[] = [
       // panel
       {
         path: 'panel',
-        children: [],
+        children: [
+          {
+            path: 'conversation',
+            loadChildren: () =>
+              import('@chat/client/web-app/panel/conversation').then(
+                (m) => m.ConversationModule
+              ),
+          },
+        ],
       },
     ],
   },
