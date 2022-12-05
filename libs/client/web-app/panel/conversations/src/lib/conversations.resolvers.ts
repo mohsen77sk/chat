@@ -4,14 +4,12 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ConversationsService } from './conversations.service';
-import { Conversations } from './conversations.types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConversationsResolver implements Resolve<any> {
+export class ConversationResolver implements Resolve<any> {
   /**
    * Constructor
    */
@@ -27,10 +25,10 @@ export class ConversationsResolver implements Resolve<any> {
    * @param route
    * @param state
    */
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<{ items: Conversations[] }> {
-    return this._conversationsService.getConversations();
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void {
+    // Get conversation id
+    const id = Number.parseInt(route.paramMap.get('id') ?? '0');
+    // Set current conversation
+    this._conversationsService.currentConversation = id > 0 ? id : null;
   }
 }

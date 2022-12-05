@@ -1,5 +1,10 @@
+export interface ConversationsPaginate {
+  items: Conversations[];
+  pagination: Pagination;
+}
+
 export interface Conversations {
-  id: string;
+  id: number;
   name?: string;
   avatar?: string;
   unreadCount?: number;
@@ -10,10 +15,19 @@ export interface Conversations {
 }
 
 export interface ConversationsMessage {
-  id: string;
+  id: number;
   contactId?: string;
   isMine?: boolean;
   value?: string;
   createdAt?: Date;
   editedAt?: Date;
+}
+
+export interface Pagination {
+  page: number;
+  take: number;
+  itemCount: number;
+  pageCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }

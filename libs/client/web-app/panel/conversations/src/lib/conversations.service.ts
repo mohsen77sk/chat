@@ -1,33 +1,36 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, IAppConfig } from '@chat/client/shared/app-config';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { Conversations } from './conversations.types';
+import { Injectable } from '@angular/core';
+import { ChatSocket } from 'libs/client/web-app/shell/core/socket/src';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ConversationsPaginate } from './conversations.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConversationsService {
-  private _conversations: BehaviorSubject<Conversations[] | null> =
-    new BehaviorSubject<Conversations[] | null>(null);
+  private _currentConversation: BehaviorSubject<number | null> =
+    new BehaviorSubject<number | null>(null);
 
   /**
    * Constructor
    */
-  constructor(
-    @Inject(APP_CONFIG) private _appConfig: IAppConfig,
-    private _httpClient: HttpClient
-  ) {}
+  constructor(private socket: ChatSocket) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Accessors
   // -----------------------------------------------------------------------------------------------------
 
   /**
-   * Getter for conversion
+   * Getter for current conversation
    */
-  get conversations$(): Observable<Conversations[] | null> {
-    return this._conversations.asObservable();
+  get currentConversation$(): Observable<number | null> {
+    return this._currentConversation.asObservable();
+  }
+
+  /**
+   * Setter for current conversation
+   */
+  set currentConversation(value: number | null) {
+    this._currentConversation.next(value);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -35,29 +38,19 @@ export class ConversationsService {
   // -----------------------------------------------------------------------------------------------------
 
   /**
-   * Get conversion
-   *
-   * @param search
+   * Get my conversions
    */
-  getConversations(
-    search: string = ''
-  ): Observable<{ items: Conversations[] }> {
-    const params = new HttpParams();
-    if (search) params.append('search', search);
+  getMyConversations(): Observable<ConversationsPaginate> {
+    return this.socket.fromEvent<ConversationsPaginate>('conversations');
+  }
 
-    return this._httpClient
-      .get<{ conversations: Conversations[] }>(
-        `${this._appConfig.apiEndpoint}/conversation`,
-        { params }
-      )
-      .pipe(
-        map((response) => ({
-          items: response.conversations,
-        })),
-        tap((response) => {
-          this._conversations.next(response.items);
-          // this._conversations.next([]);
-        })
-      );
+  /**
+   * Emit paginate conversations
+   *
+   * @param take
+   * @param page
+   */
+  emitPaginateConversations(take: number, page: number): void {
+    this.socket.emit('paginateConversations', { take, page });
   }
 }

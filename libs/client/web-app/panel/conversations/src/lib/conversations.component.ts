@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ConversationsService } from './conversations.service';
-import { Conversations } from './conversations.types';
+import { ConversationsPaginate } from './conversations.types';
 
 @Component({
   selector: 'chat-conversations',
@@ -18,8 +18,8 @@ import { Conversations } from './conversations.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConversationsComponent implements OnInit, OnDestroy {
-  conversations$!: Observable<Conversations[] | null>;
-  selectedConversation!: Conversations;
+  conversations$!: Observable<ConversationsPaginate>;
+  selectedConversationId!: number | null;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -39,8 +39,16 @@ export class ConversationsComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    // Get the conversations
-    this.conversations$ = this._conversationsService.conversations$;
+    this.conversations$ = this._conversationsService.getMyConversations();
+
+    // Selected chat
+    this._conversationsService.currentConversation$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((currentConversation) => {
+        this.selectedConversationId = currentConversation;
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+      });
   }
 
   /**
