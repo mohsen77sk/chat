@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
@@ -45,6 +47,8 @@ const routes: Routes = [
     MatMenuModule,
     MatListModule,
     MatInputModule,
+    MatButtonModule,
+    MatSidenavModule,
     MatFormFieldModule,
     TranslocoModule,
   ],

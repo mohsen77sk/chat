@@ -7,13 +7,15 @@
     >
       <!-- Header -->
       <div
-        class="flex-0 flex flex-col border-b py-4 px-8"
+        class="flex-0 h-18 flex flex-col justify-center border-b px-8"
         *transloco="let t; read: 'conversations'"
       >
         <mat-form-field
           class="chat-mat-no-subscript chat-mat-rounded chat-mat-dense w-full"
         >
-          <mat-icon matPrefix class="icon-size-5">search</mat-icon>
+          <mat-icon matPrefix class="mat-icon-rtl-mirror icon-size-5">
+            search
+          </mat-icon>
           <input matInput autocomplete="off" [placeholder]="t('search')" />
         </mat-form-field>
       </div>
@@ -55,7 +57,9 @@
                 </ng-container>
               </div>
               <!-- Content -->
-              <div class="ml-4 flex w-full flex-col overflow-hidden">
+              <div
+                class="flex w-full flex-col overflow-hidden ltr:ml-4 rtl:mr-4"
+              >
                 <div class="flex items-center justify-between">
                   <div class="truncate font-medium leading-5">
                     {{ conversation.name }}

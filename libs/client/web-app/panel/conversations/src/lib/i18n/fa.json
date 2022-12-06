@@ -2,5 +2,6 @@
   "search": "جستجو ...",
   "welcome": "خوش آمدید",
   "welcome-message": "با ضربه زدن روی دکمه چت جدید، پیام رسانی را شروع کنید",
-  "not-select-conversation-message": "یک مکالمه را انتخاب کنید یا یک چت جدید شروع کنید"
+  "not-select-conversation-message": "یک مکالمه را انتخاب کنید یا یک چت جدید شروع کنید",
+  "message-placeholder": "پیامی بنویسید..."
 }

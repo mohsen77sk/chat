@@ -1,3 +1,112 @@
 <div
   class="bg-card dark:bg-default flex flex-auto flex-col overflow-y-auto lg:overflow-hidden"
-></div>
+>
+  <mat-drawer-container class="h-full flex-auto" [hasBackdrop]="false">
+    <!-- Drawer -->
+    <mat-drawer
+      class="sm:w-100 w-full dark:bg-gray-900 lg:border-l lg:shadow-none"
+      [autoFocus]="false"
+      [mode]="drawerMode"
+      [position]="'end'"
+      [(opened)]="drawerOpened"
+      #drawer
+    ></mat-drawer>
+
+    <!-- Drawer content -->
+    <mat-drawer-content class="flex flex-col overflow-hidden">
+      <!-- Header -->
+      <div
+        class="flex-0 h-18 flex items-center border-b bg-gray-50 px-4 dark:bg-transparent md:px-6"
+      >
+        <!-- Back button -->
+        <a
+          class="ltr:md:-ml-2 rtl:md:-mr-2 lg:hidden"
+          mat-icon-button
+          [routerLink]="['./']"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">arrow_back</mat-icon>
+        </a>
+
+        <!-- Contact info -->
+        <div
+          class="mx-2 flex cursor-pointer items-center ltr:lg:ml-0 rtl:lg:mr-0"
+          (click)="openConversationInfo()"
+        ></div>
+
+        <!-- More -->
+        <button
+          class="ml-auto"
+          mat-icon-button
+          [matMenuTriggerFor]="conversationHeaderMenu"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">more_vert</mat-icon>
+          <mat-menu #conversationHeaderMenu>
+            <button mat-menu-item (click)="openConversationInfo()">
+              <mat-icon class="mat-icon-rtl-mirror">info</mat-icon>
+              Contact info
+            </button>
+          </mat-menu>
+        </button>
+      </div>
+
+      <!-- Conversation -->
+      <div class="flex h-full flex-col-reverse overflow-y-auto">
+        <div
+          class="bg-card flex flex-auto shrink flex-col p-6 dark:bg-transparent"
+        >
+          <ng-container *ngIf="(messages$ | async)?.items as messages">
+            <ng-container
+              *ngFor="
+                let message of messages;
+                let i = index;
+                let first = first;
+                let last = last;
+                trackBy: trackByFn
+              "
+            ></ng-container>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Message field -->
+      <div
+        class="flex items-end border-t bg-gray-50 p-4 dark:bg-transparent"
+        *transloco="let t; read: 'conversations'"
+      >
+        <div class="my-px flex h-11 items-center">
+          <button mat-icon-button>
+            <mat-icon class="mat-icon-rtl-mirror">
+              <!-- prettier-ignore -->
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+              </svg>
+            </mat-icon>
+          </button>
+        </div>
+        <mat-form-field
+          class="chat-mat-dense chat-mat-no-subscript chat-mat-rounded mx-4 w-full"
+        >
+          <textarea
+            class="min-h-5 max-h-30 my-0 resize-none"
+            style="margin: 11px 0 !important; padding: 0 !important"
+            [placeholder]="t('message-placeholder')"
+            [rows]="1"
+            matInput
+            #messageInput
+          ></textarea>
+        </mat-form-field>
+        <div class="my-px flex h-11 items-center">
+          <button mat-icon-button color="primary">
+            <mat-icon class="mat-icon-rtl-mirror">
+              <!-- prettier-ignore -->
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                <path d="M0 0h24v24H0V0z" fill="none"/>
+                <path d="M3.4 20.4l17.45-7.48c.81-.35.81-1.49 0-1.84L3.4 3.6c-.66-.29-1.39.2-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"/>
+              </svg>
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

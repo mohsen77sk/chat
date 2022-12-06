@@ -3,6 +3,16 @@ export interface ConversationsPaginate {
   pagination: Pagination;
 }
 
+export interface MessagesPaginate {
+  items: Messages[];
+  pagination: Pagination;
+}
+
+export interface UsersPaginate {
+  items: Users[];
+  pagination: Pagination;
+}
+
 export interface Conversations {
   id: number;
   name?: string;
@@ -11,16 +21,23 @@ export interface Conversations {
   muted?: boolean;
   lastMessage?: string;
   lastMessageAt?: Date;
-  messages?: ConversationsMessage[];
+  messages?: Messages[];
 }
 
-export interface ConversationsMessage {
+export interface Messages {
   id: number;
-  contactId?: string;
+  userId?: string;
   isMine?: boolean;
   value?: string;
   createdAt?: Date;
   editedAt?: Date;
+}
+
+export interface Users {
+  id: string;
+  name?: string;
+  username?: string;
+  avatar?: string;
 }
 
 export interface Pagination {
