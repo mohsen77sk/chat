@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -22,7 +23,7 @@ import { MessagesPaginate, UsersPaginate } from '../conversations.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConversationComponent implements OnInit, OnDestroy {
+export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('messageInput') messageInput!: ElementRef;
   drawerMode: 'over' | 'side' = 'side';
   drawerOpened = false;
@@ -110,9 +111,18 @@ export class ConversationComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * After view init
+   */
+  ngAfterViewInit(): void {
+    // Prepare the chat for the replies
+    this._prepareChatForReply();
+  }
+
+  /**
    * On destroy
    */
   ngOnDestroy(): void {
+    // reset current conversation
     this._conversationsService.currentConversation = null;
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
@@ -142,5 +152,66 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
+  }
+
+  /**
+   * Send message
+   */
+  sendMessage(): void {
+    // Trim the message
+    const message = this.messageInput.nativeElement.value.trim();
+
+    // Prepare the chat for the replies && return
+    if (!message) {
+      this._prepareChatForReply();
+      return;
+    }
+
+    // Send message
+    this._conversationsService.sendMessage(
+      this.selectedConversationId ?? 0,
+      message
+    );
+
+    // Prepare the chat for the replies
+    this._prepareChatForReply();
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Private methods
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * Prepare the chat for the replies
+   *
+   * @private
+   */
+  private _prepareChatForReply(): void {
+    this._resetMessageInput();
+    this._focusMessageInput();
+  }
+
+  /**
+   * Reset to the message input
+   *
+   * @private
+   */
+  private _resetMessageInput(): void {
+    if (this.messageInput) {
+      this.messageInput.nativeElement.value = '';
+    }
+  }
+
+  /**
+   * Focus to the message input
+   *
+   * @private
+   */
+  private _focusMessageInput(): void {
+    if (this.messageInput) {
+      setTimeout(() => {
+        this.messageInput.nativeElement.focus();
+      }, 0);
+    }
   }
 }

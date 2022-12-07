@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ChatSocket } from 'libs/client/web-app/shell/core/socket/src';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
+  ConversationInfo,
   ConversationsPaginate,
   MessagesPaginate,
   UsersPaginate,
@@ -69,7 +70,23 @@ export class ConversationsService {
   }
 
   /**
-   * Get my users
+   * Leave conversation
+   *
+   * @param conversationId
+   */
+  LeaveConversation(conversationId: number) {
+    this.socket.emit('leaveConversation', conversationId);
+  }
+
+  /**
+   * Get conversation info
+   */
+  getConversationInfo(): Observable<ConversationInfo> {
+    return this.socket.fromEvent<ConversationInfo>('conversationInfo');
+  }
+
+  /**
+   * Get conversation users
    */
   getConversationUsers(): Observable<UsersPaginate> {
     return this.socket.fromEvent<UsersPaginate>('conversationUsers');
@@ -116,5 +133,15 @@ export class ConversationsService {
       conversationId,
       pageOptionsDto: { take, page },
     });
+  }
+
+  /**
+   *  Send message
+   *
+   * @param conversationId
+   * @param text
+   */
+  sendMessage(conversationId: number, text: string) {
+    this.socket.emit('addMessage', { conversationId, text });
   }
 }

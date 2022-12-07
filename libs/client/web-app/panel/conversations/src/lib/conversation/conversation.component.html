@@ -173,13 +173,14 @@
             class="min-h-5 max-h-30 my-0 resize-none"
             style="margin: 11px 0 !important; padding: 0 !important"
             [placeholder]="t('message-placeholder')"
+            (keyup)="$event.key === 'Enter' ? sendMessage() : null"
             [rows]="1"
             matInput
             #messageInput
           ></textarea>
         </mat-form-field>
         <div class="my-px flex h-11 items-center">
-          <button mat-icon-button color="primary">
+          <button mat-icon-button color="primary" (click)="sendMessage()">
             <mat-icon class="mat-icon-rtl-mirror">
               <!-- prettier-ignore -->
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">

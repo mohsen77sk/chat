@@ -13,6 +13,15 @@ export interface UsersPaginate {
   pagination: Pagination;
 }
 
+export interface ConversationInfo {
+  id: number;
+  name?: string;
+  username?: string;
+  avatar?: string;
+  muted?: boolean;
+  users?: UsersPaginate[];
+}
+
 export interface Conversations {
   id: number;
   name?: string;
