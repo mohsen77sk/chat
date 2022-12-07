@@ -113,6 +113,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
    * On destroy
    */
   ngOnDestroy(): void {
+    this._conversationsService.currentConversation = null;
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();

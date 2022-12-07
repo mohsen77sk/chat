@@ -17,6 +17,7 @@ import { ConversationResolver } from './conversations.resolvers';
 import { ConversationsComponent } from './conversations.component';
 import { EmptyConversationComponent } from './empty-conversation/empty-conversation.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { ConversationInfoComponent } from './conversation-info/conversation-info.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,7 @@ const routes: Routes = [
     ConversationsComponent,
     EmptyConversationComponent,
     ConversationComponent,
+    ConversationInfoComponent,
   ],
 })
 export class ConversationsModule {}

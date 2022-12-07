@@ -10,7 +10,13 @@
       [position]="'end'"
       [(opened)]="drawerOpened"
       #drawer
-    ></mat-drawer>
+    >
+      <!-- Conversation info -->
+      <chat-conversation-info
+        [drawer]="drawer"
+        [info]="{}"
+      ></chat-conversation-info>
+    </mat-drawer>
 
     <!-- Drawer content -->
     <mat-drawer-content class="flex flex-col overflow-hidden">
@@ -22,7 +28,7 @@
         <a
           class="ltr:md:-ml-2 rtl:md:-mr-2 lg:hidden"
           mat-icon-button
-          [routerLink]="['./']"
+          [routerLink]="['../']"
         >
           <mat-icon class="mat-icon-rtl-mirror">arrow_back</mat-icon>
         </a>
@@ -63,7 +69,84 @@
                 let last = last;
                 trackBy: trackByFn
               "
-            ></ng-container>
+            >
+              <!-- Start of the day -->
+              <ng-container
+                *ngIf="
+                  first ||
+                  (messages[i - 1].createdAt | date: 'd') !==
+                    (message.createdAt | date: 'd')
+                "
+              >
+                <div class="my-3 -mx-6 flex items-center justify-center">
+                  <div class="flex-auto border-b"></div>
+                  <div
+                    class="flex-0 text-secondary mx-4 text-sm font-medium leading-5"
+                  >
+                    {{ message.createdAt | date: 'longDate' }}
+                  </div>
+                  <div class="flex-auto border-b"></div>
+                </div>
+              </ng-container>
+              <!-- Messages -->
+              <div
+                class="flex flex-col"
+                [ngClass]="{
+                  'items-end': message.isMine,
+                  'items-start': !message.isMine,
+                  'mt-0.5': i > 0 && messages[i - 1].isMine === message.isMine,
+                  'mt-3': i > 0 && messages[i - 1].isMine !== message.isMine
+                }"
+              >
+                <!-- Bubble -->
+                <div
+                  class="max-w-3/4 relative rounded-lg px-2 py-1"
+                  [ngClass]="{
+                    'bg-primary-500 text-primary-50': message.isMine,
+                    'bg-gray-500 text-gray-50': !message.isMine
+                  }"
+                >
+                  <!-- Speech bubble tail -->
+                  <ng-container
+                    *ngIf="last || messages[i + 1].isMine !== message.isMine"
+                  >
+                    <div
+                      class="absolute bottom-0 w-3"
+                      [ngClass]="{
+                        'text-primary-500 -right-1 -mr-px mb-px':
+                          message.isMine,
+                        '-scale-x-1 -left-1 -ml-px mb-px text-gray-500':
+                          !message.isMine
+                      }"
+                    >
+                      <ng-container
+                        *ngTemplateOutlet="speechBubbleExtension"
+                      ></ng-container>
+                    </div>
+                  </ng-container>
+                  <!-- Message -->
+                  <div
+                    class="min-w-4 leading-5"
+                    [innerHTML]="message.text"
+                  ></div>
+                  <!-- Detail -->
+                  <div
+                    class="flex"
+                    [ngClass]="{
+                      'ltr:justify-start rtl:justify-end': message.isMine,
+                      'ltr:justify-end rtl:justify-start': !message.isMine
+                    }"
+                  >
+                    <!-- Time -->
+                    <span
+                      class="text-on-primary-500 text-sm font-medium leading-3 text-opacity-50"
+                    >
+                      {{ message.createdAt | date: 'HH:mm' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
           </ng-container>
         </div>
       </div>
@@ -109,4 +192,14 @@
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
+
+  <!-- Speech bubble tail SVG -->
+  <ng-template #speechBubbleExtension>
+    <!-- prettier-ignore -->
+    <svg width="100%" height="100%" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M1.01522827,0.516204834 C-8.83532715,54.3062744 61.7609863,70.5215302 64.8009949,64.3061218 C68.8074951,54.8859711 30.1663208,52.9997559 37.5036011,0.516204834 L1.01522827,0.516204834 Z" fill="currentColor" fill-rule="nonzero"></path>
+      </g>
+    </svg>
+  </ng-template>
 </div>

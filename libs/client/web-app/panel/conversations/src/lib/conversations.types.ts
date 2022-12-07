@@ -28,7 +28,7 @@ export interface Messages {
   id: number;
   userId?: string;
   isMine?: boolean;
-  value?: string;
+  text?: string;
   createdAt?: Date;
   editedAt?: Date;
 }
