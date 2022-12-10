@@ -14,7 +14,7 @@
       <!-- Conversation info -->
       <chat-conversation-info
         [drawer]="drawer"
-        [info]="{}"
+        [info]="info"
       ></chat-conversation-info>
     </mat-drawer>
 
@@ -37,7 +37,32 @@
         <div
           class="mx-2 flex cursor-pointer items-center ltr:lg:ml-0 rtl:lg:mr-0"
           (click)="openConversationInfo()"
-        ></div>
+          *ngIf="info"
+        >
+          <!-- Avatar -->
+          <div
+            class="flex-0 relative flex h-10 w-10 items-center justify-center"
+          >
+            <ng-container *ngIf="info.avatar">
+              <img
+                class="h-full w-full rounded-full object-cover"
+                [src]="info.avatar"
+                alt="Conversation avatar"
+              />
+            </ng-container>
+            <ng-container *ngIf="!info.avatar">
+              <div
+                class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-lg uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              >
+                {{ info.name?.charAt(0) }}
+              </div>
+            </ng-container>
+          </div>
+          <!-- Name -->
+          <div class="ml-4 truncate text-lg font-medium leading-5">
+            {{ info.name }}
+          </div>
+        </div>
 
         <!-- More -->
         <button
@@ -47,9 +72,15 @@
         >
           <mat-icon class="mat-icon-rtl-mirror">more_vert</mat-icon>
           <mat-menu #conversationHeaderMenu>
-            <button mat-menu-item (click)="openConversationInfo()">
+            <button
+              mat-menu-item
+              (click)="openConversationInfo()"
+              *transloco="let t; read: 'conversations'"
+            >
               <mat-icon class="mat-icon-rtl-mirror">info</mat-icon>
-              Contact info
+              {{
+                info.type === 'PRIVATE' ? t('contact-info') : t('group-info')
+              }}
             </button>
           </mat-menu>
         </button>
@@ -59,6 +90,7 @@
       <div class="flex h-full flex-col-reverse overflow-y-auto">
         <div
           class="bg-card flex flex-auto shrink flex-col p-6 dark:bg-transparent"
+          #conversation
         >
           <ng-container *ngIf="(messages$ | async)?.items as messages">
             <ng-container
@@ -78,7 +110,7 @@
                     (message.createdAt | date: 'd')
                 "
               >
-                <div class="my-3 -mx-6 flex items-center justify-center">
+                <div class="my-3 flex items-center justify-center">
                   <div class="flex-auto border-b"></div>
                   <div
                     class="flex-0 text-secondary mx-4 text-sm font-medium leading-5"
@@ -131,7 +163,7 @@
                   ></div>
                   <!-- Detail -->
                   <div
-                    class="flex"
+                    class="mt-0.5 flex"
                     [ngClass]="{
                       'ltr:justify-start rtl:justify-end': message.isMine,
                       'ltr:justify-end rtl:justify-start': !message.isMine

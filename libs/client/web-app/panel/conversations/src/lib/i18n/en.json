@@ -3,5 +3,9 @@
   "welcome": "Welcome",
   "welcome-message": "Start messaging by tapping the new chat button",
   "not-select-conversation-message": "Select a conversation or start a new chat",
-  "message-placeholder": "Write a message..."
+  "message-placeholder": "Write a message...",
+  "contact-info": "Contact info",
+  "group-info": "Group info",
+  "username": "Username",
+  "notifications": "Notifications"
 }

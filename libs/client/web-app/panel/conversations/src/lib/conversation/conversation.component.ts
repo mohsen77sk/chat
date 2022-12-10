@@ -14,7 +14,7 @@ import {
 import { ChatMediaWatcherService } from '@chat/client/shared/util/media-watcher';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ConversationsService } from '../conversations.service';
-import { MessagesPaginate, UsersPaginate } from '../conversations.types';
+import { ConversationInfo, MessagesPaginate } from '../conversations.types';
 
 @Component({
   selector: 'chat-conversation',
@@ -24,13 +24,17 @@ import { MessagesPaginate, UsersPaginate } from '../conversations.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('messageInput') messageInput!: ElementRef;
+  @ViewChild('conversation', { static: false })
+  private _conversation!: ElementRef;
+
+  @ViewChild('messageInput', { static: false })
+  private _messageInput!: ElementRef;
+
   drawerMode: 'over' | 'side' = 'side';
   drawerOpened = false;
 
-  users$!: Observable<UsersPaginate>;
+  info!: ConversationInfo;
   messages$!: Observable<MessagesPaginate>;
-  selectedConversationId!: number | null;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -60,13 +64,13 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
     this._ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         // Set the height to 'auto' so we can correctly read the scrollHeight
-        this.messageInput.nativeElement.style.height = 'auto';
+        this._messageInput.nativeElement.style.height = 'auto';
 
         // Detect the changes so the height is applied
         this._changeDetectorRef.detectChanges();
 
         // Get the scrollHeight and subtract the vertical padding
-        this.messageInput.nativeElement.style.height = `${this.messageInput.nativeElement.scrollHeight}px`;
+        this._messageInput.nativeElement.style.height = `${this._messageInput.nativeElement.scrollHeight}px`;
 
         // Detect the changes one more time to apply the final height
         this._changeDetectorRef.detectChanges();
@@ -82,18 +86,6 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    this.users$ = this._conversationsService.getConversationUsers();
-    this.messages$ = this._conversationsService.getConversationMessages();
-
-    // Selected chat
-    this._conversationsService.currentConversation$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((currentConversation) => {
-        this.selectedConversationId = currentConversation;
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-      });
-
     // Subscribe to media changes
     this._chatMediaWatcherService.onMediaChange$
       .pipe(takeUntil(this._unsubscribeAll))
@@ -108,6 +100,20 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
+
+    // Subscribe to conversation info
+    this._conversationsService
+      .getConversationInfo()
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((info) => {
+        console.log(info);
+
+        this.info = info;
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+      });
+
+    this.messages$ = this._conversationsService.getConversationMessages();
   }
 
   /**
@@ -159,7 +165,7 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   sendMessage(): void {
     // Trim the message
-    const message = this.messageInput.nativeElement.value.trim();
+    const message = this._messageInput.nativeElement.value.trim();
 
     // Prepare the chat for the replies && return
     if (!message) {
@@ -168,10 +174,7 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Send message
-    this._conversationsService.sendMessage(
-      this.selectedConversationId ?? 0,
-      message
-    );
+    this._conversationsService.sendMessage(this.info.id, message);
 
     // Prepare the chat for the replies
     this._prepareChatForReply();
@@ -189,6 +192,7 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
   private _prepareChatForReply(): void {
     this._resetMessageInput();
     this._focusMessageInput();
+    this._scrollToBottom();
   }
 
   /**
@@ -197,8 +201,8 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @private
    */
   private _resetMessageInput(): void {
-    if (this.messageInput) {
-      this.messageInput.nativeElement.value = '';
+    if (this._messageInput) {
+      this._messageInput.nativeElement.value = '';
     }
   }
 
@@ -208,10 +212,26 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @private
    */
   private _focusMessageInput(): void {
-    if (this.messageInput) {
+    if (this._messageInput) {
       setTimeout(() => {
-        this.messageInput.nativeElement.focus();
+        this._messageInput.nativeElement.focus();
       }, 0);
+    }
+  }
+
+  /**
+   * Scroll to bottom content
+   *
+   * @private
+   */
+  private _scrollToBottom(): void {
+    if (this._conversation) {
+      const el = this._conversation.nativeElement as HTMLElement;
+      setTimeout(() => {
+        el.children
+          .item(el.children.length - 1)
+          ?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   }
 }

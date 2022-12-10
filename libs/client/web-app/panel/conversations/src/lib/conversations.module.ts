@@ -6,9 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { scopeLoader } from '@chat/client/shared/util/transloco';
@@ -48,9 +50,11 @@ const routes: Routes = [
     MatMenuModule,
     MatListModule,
     MatInputModule,
+    MatRippleModule,
     MatButtonModule,
     MatSidenavModule,
     MatFormFieldModule,
+    MatSlideToggleModule,
     TranslocoModule,
   ],
   providers: [

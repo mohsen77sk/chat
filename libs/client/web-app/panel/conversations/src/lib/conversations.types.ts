@@ -13,12 +13,16 @@ export interface UsersPaginate {
   pagination: Pagination;
 }
 
+export type ConversationType = 'PRIVATE' | 'GROUP';
+
 export interface ConversationInfo {
   id: number;
   name?: string;
   username?: string;
   avatar?: string;
+  about?: string;
   muted?: boolean;
+  type?: ConversationType;
   users?: UsersPaginate[];
 }
 
@@ -30,6 +34,7 @@ export interface Conversations {
   muted?: boolean;
   lastMessage?: string;
   lastMessageAt?: Date;
+  type?: ConversationType;
   messages?: Messages[];
 }
 

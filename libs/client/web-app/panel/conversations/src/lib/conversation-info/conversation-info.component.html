@@ -2,11 +2,75 @@
   <!-- Header -->
   <div
     class="flex-0 h-18 flex items-center border-b bg-gray-50 px-4 dark:bg-transparent"
+    *transloco="let t; read: 'conversations'"
   >
-    <!-- <div class="ml-2 text-lg font-medium">Contact info</div> -->
-    <!-- <div class="ml-2 text-lg font-medium">Group info</div> -->
+    <div class="ml-2 text-lg font-medium" *ngIf="info.type === 'PRIVATE'">
+      {{ t('contact-info') }}
+    </div>
+    <div class="ml-2 text-lg font-medium" *ngIf="info.type === 'GROUP'">
+      {{ t('group-info') }}
+    </div>
     <button mat-icon-button (click)="drawer.close()">
       <mat-icon>close</mat-icon>
     </button>
+  </div>
+
+  <div class="overflow-y-auto">
+    <!-- Contact avatar & info -->
+    <div class="mt-8 flex flex-col items-center">
+      <div class="h-40 w-40 rounded-full">
+        <ng-container *ngIf="info.avatar">
+          <img
+            class="h-full w-full rounded-full object-cover"
+            [src]="info.avatar"
+            [alt]="'Contact avatar'"
+          />
+        </ng-container>
+        <ng-container *ngIf="!info.avatar">
+          <div
+            class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-8xl font-semibold uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+          >
+            {{ info.name.charAt(0) }}
+          </div>
+        </ng-container>
+      </div>
+      <div class="mt-4 text-lg font-medium">{{ info.name }}</div>
+      <div class="text-md text-secondary mt-0.5">{{ info.about }}</div>
+    </div>
+
+    <!-- Details -->
+    <div class="py-10 px-4">
+      <div
+        class="space-y-4 border-t pt-4"
+        *transloco="let t; read: 'conversations'"
+      >
+        <div
+          class="hover:bg-hover relative flex cursor-pointer rounded-lg px-4 py-2 sm:items-center"
+          (click)="$event.stopPropagation()"
+          matRipple
+        >
+          <mat-icon class="">alternate_email</mat-icon>
+          <div class="ltr:ml-6 rtl:mr-6">
+            <div class="font-medium">{{ info.username }}</div>
+            <div class="text-secondary text-sm">{{ t('username') }}</div>
+          </div>
+        </div>
+        <div
+          class="hover:bg-hover relative flex cursor-pointer rounded-lg px-4 py-2 sm:items-center"
+          (click)="$event.stopPropagation(); info.mute = !info.mute"
+          matRipple
+        >
+          <mat-icon class="">notifications</mat-icon>
+          <div
+            class="flex w-full items-center justify-between ltr:ml-6 rtl:mr-6"
+          >
+            <div class="font-medium">{{ t('notifications') }}</div>
+            <mat-slide-toggle color="primary" [checked]="!info.mute">
+            </mat-slide-toggle>
+            <div class="absolute inset-0 z-10 h-full w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
