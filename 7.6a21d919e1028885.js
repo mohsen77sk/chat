@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkweb_app=self.webpackChunkweb_app||[]).push([[7],{7:e=>{e.exports=JSON.parse('{"profile":"\u0645\u0634\u062e\u0635\u0627\u062a","settings":"\u062a\u0646\u0638\u06cc\u0645\u0627\u062a","sign-out":"\u062e\u0631\u0648\u062c \u0627\u0632 \u0633\u06cc\u0633\u062a\u0645"}')}}]);

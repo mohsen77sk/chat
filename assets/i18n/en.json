@@ -1,0 +1,22 @@
+{
+    "add": "Add",
+    "modify": "Modify",
+    "remove": "Remove",
+    "delete": "Delete",
+    "active": "Active",
+    "disable": "Disable",
+    "blocked": "Blocked",
+    "send": "Send",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error-validation": {
+        "required": "This is required",
+        "pattern": "Invalid value",
+        "min-length": "Min length is {{min}}",
+        "max-length": "Max length is {{max}}",
+        "min": "Min value is {{min}}",
+        "max": "Max value is {{max}}",
+        "email": "Please enter a valid email address",
+        "passwords-must-match": "Passwords must match"
+    }
+}
