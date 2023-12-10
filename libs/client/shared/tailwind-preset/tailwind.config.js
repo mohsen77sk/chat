@@ -25,7 +25,7 @@ const themes = {
     },
   },
   // Rest of the themes will use the 'default' as the base
-  // theme and extend it with their given configuration
+  // theme and will extend it with their given configuration
   teal: {
     primary: {
       ...colors.teal,

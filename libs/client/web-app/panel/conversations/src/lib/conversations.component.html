@@ -11,7 +11,8 @@
         *transloco="let t; read: 'conversations'"
       >
         <mat-form-field
-          class="chat-mat-no-subscript chat-mat-rounded chat-mat-dense w-full"
+          class="chat-mat-rounded chat-mat-dense w-full"
+          subscriptSizing="dynamic"
         >
           <mat-icon matPrefix class="mat-icon-rtl-mirror icon-size-5">
             search
@@ -28,7 +29,7 @@
             *ngFor="let conversation of conversations; trackBy: trackByFn"
           >
             <a
-              class="z-20 flex cursor-pointer items-center border-b py-5 px-8"
+              class="z-20 flex cursor-pointer items-center border-b px-8 py-5"
               [ngClass]="{
                 'dark:hover:bg-hover hover:bg-gray-100':
                   selectedConversationId !== conversation.id,

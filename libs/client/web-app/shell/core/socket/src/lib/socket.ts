@@ -7,14 +7,14 @@ import { AuthService } from '@chat/client/web-app/shell/core/auth';
 export class ChatSocket extends Socket {
   constructor(
     @Inject(APP_CONFIG) private _appConfig: IAppConfig,
-    private _authService: AuthService
+    private _authService: AuthService,
   ) {
     super({
       url: _appConfig.apiEndpoint,
       options: {
-        // transports: ['websocket'],
-        extraHeaders: {
-          Authorization: _authService.accessToken,
+        transports: ['websocket'],
+        auth: {
+          authorization: _authService.accessToken,
         },
       },
     });
