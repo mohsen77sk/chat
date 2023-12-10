@@ -12,7 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ChatMediaWatcherService } from '@chat/client/shared/util/media-watcher';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { ConversationsService } from '../conversations.service';
 import { ConversationInfo, MessagesPaginate } from '../conversations.types';
 
@@ -106,14 +106,17 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
       .getConversationInfo()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((info) => {
-        console.log(info);
-
         this.info = info;
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
 
     this.messages$ = this._conversationsService.getConversationMessages();
+
+    this._conversationsService
+      .getAddedMessages()
+      .pipe(tap((r) => console.log(r)))
+      .subscribe();
   }
 
   /**

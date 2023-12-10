@@ -4,10 +4,13 @@
     class="flex-0 h-18 flex items-center border-b bg-gray-50 px-4 dark:bg-transparent"
     *transloco="let t; read: 'conversations'"
   >
-    <div class="ml-2 text-lg font-medium" *ngIf="info.type === 'PRIVATE'">
+    <div
+      class="ml-2 w-full text-lg font-medium"
+      *ngIf="info.type === 'PRIVATE'"
+    >
       {{ t('contact-info') }}
     </div>
-    <div class="ml-2 text-lg font-medium" *ngIf="info.type === 'GROUP'">
+    <div class="ml-2 w-full text-lg font-medium" *ngIf="info.type === 'GROUP'">
       {{ t('group-info') }}
     </div>
     <button mat-icon-button (click)="drawer.close()">
@@ -44,23 +47,27 @@
         class="space-y-4 border-t pt-4"
         *transloco="let t; read: 'conversations'"
       >
-        <div
-          class="hover:bg-hover relative flex cursor-pointer rounded-lg px-4 py-2 sm:items-center"
-          (click)="$event.stopPropagation()"
-          matRipple
-        >
-          <mat-icon class="">alternate_email</mat-icon>
-          <div class="ltr:ml-6 rtl:mr-6">
-            <div class="font-medium">{{ info.username }}</div>
-            <div class="text-secondary text-sm">{{ t('username') }}</div>
+        <ng-container *ngIf="info.type === 'PRIVATE'">
+          <!-- Username -->
+          <div
+            class="hover:bg-hover relative flex cursor-pointer rounded-lg px-4 py-2 sm:items-center"
+            (click)="$event.stopPropagation()"
+            matRipple
+          >
+            <mat-icon>alternate_email</mat-icon>
+            <div class="ltr:ml-6 rtl:mr-6">
+              <div class="font-medium">{{ info.username }}</div>
+              <div class="text-secondary text-sm">{{ t('username') }}</div>
+            </div>
           </div>
-        </div>
+        </ng-container>
+        <!-- Notifications -->
         <div
           class="hover:bg-hover relative flex cursor-pointer rounded-lg px-4 py-2 sm:items-center"
           (click)="$event.stopPropagation(); info.mute = !info.mute"
           matRipple
         >
-          <mat-icon class="">notifications</mat-icon>
+          <mat-icon>notifications</mat-icon>
           <div
             class="flex w-full items-center justify-between ltr:ml-6 rtl:mr-6"
           >

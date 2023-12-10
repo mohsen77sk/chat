@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '@chat/client/shared/app-config';
 import { Socket } from 'ngx-socket-io';
-import { AuthService } from '../../../auth/src';
+import { AuthService } from '@chat/client/web-app/shell/core/auth';
 
 @Injectable({ providedIn: 'root' })
 export class ChatSocket extends Socket {
@@ -12,6 +12,7 @@ export class ChatSocket extends Socket {
     super({
       url: _appConfig.apiEndpoint,
       options: {
+        // transports: ['websocket'],
         extraHeaders: {
           Authorization: _authService.accessToken,
         },

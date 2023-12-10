@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ConversationInfo,
   ConversationsPaginate,
+  Messages,
   MessagesPaginate,
   UsersPaginate,
 } from './conversations.types';
@@ -143,5 +144,12 @@ export class ConversationsService {
    */
   sendMessage(conversationId: number, text: string) {
     this.socket.emit('addMessage', { conversationId, text });
+  }
+
+  /**
+   * Get added messages
+   */
+  getAddedMessages(): Observable<Messages> {
+    return this.socket.fromEvent<Messages>('addMessage');
   }
 }

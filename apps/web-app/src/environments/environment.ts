@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'http://172.22.255.188:5000',
+  apiEndpoint: 'https://chat-nest.liara.run',
 };
 
 /*

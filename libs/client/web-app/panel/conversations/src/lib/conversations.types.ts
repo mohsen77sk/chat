@@ -45,6 +45,7 @@ export interface Messages {
   text?: string;
   createdAt?: Date;
   editedAt?: Date;
+  conversationsId?: string;
 }
 
 export interface Users {
