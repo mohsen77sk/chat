@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/web-app",
         "index": "apps/web-app/src/index.html",
@@ -30,11 +32,18 @@
           },
           "apps/web-app/src/manifest.webmanifest"
         ],
-        "styles": ["apps/web-app/src/styles.scss"],
+        "styles": [
+          "apps/web-app/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/client/shared/styles/src"]
+          "includePaths": [
+            "libs/client/shared/styles/src"
+          ]
         },
         "scripts": [],
+        "allowedCommonJsDependencies": [
+          "flat"
+        ],
         "serviceWorker": true,
         "ngswConfigPath": "apps/web-app/ngsw-config.json"
       },
@@ -48,8 +57,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "70kb",
+              "maximumError": "100kb"
             }
           ],
           "fileReplacements": [
@@ -94,7 +103,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/web-app/jest.config.ts"
       }
