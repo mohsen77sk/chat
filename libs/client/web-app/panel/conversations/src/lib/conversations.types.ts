@@ -4,7 +4,7 @@ export interface ConversationsPaginate {
 }
 
 export interface MessagesPaginate {
-  items: Messages[];
+  items: Message[];
   pagination: Pagination;
 }
 
@@ -35,10 +35,10 @@ export interface Conversations {
   lastMessage?: string;
   lastMessageAt?: Date;
   type?: ConversationType;
-  messages?: Messages[];
+  messages?: Message[];
 }
 
-export interface Messages {
+export interface Message {
   id: number;
   userId?: string;
   isMine?: boolean;

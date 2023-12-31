@@ -33,57 +33,58 @@
           <mat-icon class="mat-icon-rtl-mirror">arrow_back</mat-icon>
         </a>
 
-        <!-- Contact info -->
-        <div
-          class="mx-2 flex cursor-pointer items-center ltr:lg:ml-0 rtl:lg:mr-0"
-          (click)="openConversationInfo()"
-          *ngIf="info"
-        >
-          <!-- Avatar -->
+        <ng-container *ngIf="info">
+          <!-- Contact info -->
           <div
-            class="flex-0 relative flex h-10 w-10 items-center justify-center"
+            class="mx-2 flex cursor-pointer items-center ltr:lg:ml-0 rtl:lg:mr-0"
+            (click)="openConversationInfo()"
           >
-            <ng-container *ngIf="info.avatar">
-              <img
-                class="h-full w-full rounded-full object-cover"
-                [src]="info.avatar"
-                alt="Conversation avatar"
-              />
-            </ng-container>
-            <ng-container *ngIf="!info.avatar">
-              <div
-                class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-lg uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
-              >
-                {{ info.name?.charAt(0) }}
-              </div>
-            </ng-container>
-          </div>
-          <!-- Name -->
-          <div class="ml-4 truncate text-lg font-medium leading-5">
-            {{ info.name }}
-          </div>
-        </div>
-
-        <!-- More -->
-        <button
-          class="ml-auto"
-          mat-icon-button
-          [matMenuTriggerFor]="conversationHeaderMenu"
-        >
-          <mat-icon class="mat-icon-rtl-mirror">more_vert</mat-icon>
-          <mat-menu #conversationHeaderMenu>
-            <button
-              mat-menu-item
-              (click)="openConversationInfo()"
-              *transloco="let t; read: 'conversations'"
+            <!-- Avatar -->
+            <div
+              class="flex-0 relative flex h-10 w-10 items-center justify-center"
             >
-              <mat-icon class="mat-icon-rtl-mirror">info</mat-icon>
-              {{
-                info.type === 'PRIVATE' ? t('contact-info') : t('group-info')
-              }}
-            </button>
-          </mat-menu>
-        </button>
+              <ng-container *ngIf="info.avatar">
+                <img
+                  class="h-full w-full rounded-full object-cover"
+                  [src]="info.avatar"
+                  alt="Conversation avatar"
+                />
+              </ng-container>
+              <ng-container *ngIf="!info.avatar">
+                <div
+                  class="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-lg uppercase text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                >
+                  {{ info.name?.charAt(0) }}
+                </div>
+              </ng-container>
+            </div>
+            <!-- Name -->
+            <div class="ml-4 truncate text-lg font-medium leading-5">
+              {{ info.name }}
+            </div>
+          </div>
+
+          <!-- More -->
+          <button
+            class="ml-auto"
+            mat-icon-button
+            [matMenuTriggerFor]="conversationHeaderMenu"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">more_vert</mat-icon>
+            <mat-menu #conversationHeaderMenu>
+              <button
+                mat-menu-item
+                (click)="openConversationInfo()"
+                *transloco="let t; read: 'conversations'"
+              >
+                <mat-icon class="mat-icon-rtl-mirror">info</mat-icon>
+                {{
+                  info.type === 'PRIVATE' ? t('contact-info') : t('group-info')
+                }}
+              </button>
+            </mat-menu>
+          </button>
+        </ng-container>
       </div>
 
       <!-- Conversation -->
@@ -92,93 +93,87 @@
           class="bg-card flex flex-auto shrink flex-col p-6 dark:bg-transparent"
           #conversation
         >
-          <ng-container *ngIf="(messages$ | async)?.items as messages">
+          <ng-container
+            *ngFor="
+              let message of messages;
+              let i = index;
+              let first = first;
+              let last = last;
+              trackBy: trackByFn
+            "
+          >
+            <!-- Start of the day -->
             <ng-container
-              *ngFor="
-                let message of messages;
-                let i = index;
-                let first = first;
-                let last = last;
-                trackBy: trackByFn
+              *ngIf="
+                first ||
+                (messages[i - 1].createdAt | date: 'd') !==
+                  (message.createdAt | date: 'd')
               "
             >
-              <!-- Start of the day -->
-              <ng-container
-                *ngIf="
-                  first ||
-                  (messages[i - 1].createdAt | date: 'd') !==
-                    (message.createdAt | date: 'd')
-                "
-              >
-                <div class="my-3 flex items-center justify-center">
-                  <div class="flex-auto border-b"></div>
-                  <div
-                    class="flex-0 text-secondary mx-4 text-sm font-medium leading-5"
-                  >
-                    {{ message.createdAt | date: 'longDate' }}
-                  </div>
-                  <div class="flex-auto border-b"></div>
-                </div>
-              </ng-container>
-              <!-- Messages -->
-              <div
-                class="flex flex-col"
-                [ngClass]="{
-                  'items-end': message.isMine,
-                  'items-start': !message.isMine,
-                  'mt-0.5': i > 0 && messages[i - 1].isMine === message.isMine,
-                  'mt-3': i > 0 && messages[i - 1].isMine !== message.isMine
-                }"
-              >
-                <!-- Bubble -->
+              <div class="my-3 flex items-center justify-center">
+                <div class="flex-auto border-b"></div>
                 <div
-                  class="max-w-3/4 relative rounded-lg px-2 py-1"
-                  [ngClass]="{
-                    'bg-primary-500 text-primary-50': message.isMine,
-                    'bg-gray-500 text-gray-50': !message.isMine
-                  }"
+                  class="flex-0 text-secondary mx-4 text-sm font-medium leading-5"
                 >
-                  <!-- Speech bubble tail -->
-                  <ng-container
-                    *ngIf="last || messages[i + 1].isMine !== message.isMine"
-                  >
-                    <div
-                      class="absolute bottom-0 w-3"
-                      [ngClass]="{
-                        'text-primary-500 -right-1 -mr-px mb-px':
-                          message.isMine,
-                        '-scale-x-1 -left-1 -ml-px mb-px text-gray-500':
-                          !message.isMine
-                      }"
-                    >
-                      <ng-container
-                        *ngTemplateOutlet="speechBubbleExtension"
-                      ></ng-container>
-                    </div>
-                  </ng-container>
-                  <!-- Message -->
-                  <div
-                    class="min-w-4 leading-5"
-                    [innerHTML]="message.text"
-                  ></div>
-                  <!-- Detail -->
-                  <div
-                    class="mt-0.5 flex"
-                    [ngClass]="{
-                      'ltr:justify-start rtl:justify-end': message.isMine,
-                      'ltr:justify-end rtl:justify-start': !message.isMine
-                    }"
-                  >
-                    <!-- Time -->
-                    <span
-                      class="text-on-primary-500 text-sm font-medium leading-3 text-opacity-50"
-                    >
-                      {{ message.createdAt | date: 'HH:mm' }}
-                    </span>
-                  </div>
+                  {{ message.createdAt | date: 'longDate' }}
                 </div>
+                <div class="flex-auto border-b"></div>
               </div>
             </ng-container>
+            <!-- Messages -->
+            <div
+              class="flex flex-col"
+              [ngClass]="{
+                'items-end': message.isMine,
+                'items-start': !message.isMine,
+                'mt-0.5': i > 0 && messages[i - 1].isMine === message.isMine,
+                'mt-3': i > 0 && messages[i - 1].isMine !== message.isMine
+              }"
+            >
+              <!-- Bubble -->
+              <div
+                class="max-w-3/4 relative rounded-lg px-2 py-1"
+                [ngClass]="{
+                  'bg-primary-500 text-primary-50': message.isMine,
+                  'bg-gray-500 text-gray-50': !message.isMine
+                }"
+              >
+                <!-- Speech bubble tail -->
+                <ng-container
+                  *ngIf="last || messages[i + 1].isMine !== message.isMine"
+                >
+                  <div
+                    class="absolute bottom-0 w-3"
+                    [ngClass]="{
+                      'text-primary-500 -right-1 -mr-px mb-px': message.isMine,
+                      '-scale-x-1 -left-1 -ml-px mb-px text-gray-500':
+                        !message.isMine
+                    }"
+                  >
+                    <ng-container
+                      *ngTemplateOutlet="speechBubbleExtension"
+                    ></ng-container>
+                  </div>
+                </ng-container>
+                <!-- Message -->
+                <div class="min-w-4 leading-5" [innerHTML]="message.text"></div>
+                <!-- Detail -->
+                <div
+                  class="mt-0.5 flex"
+                  [ngClass]="{
+                    'ltr:justify-start rtl:justify-end': message.isMine,
+                    'ltr:justify-end rtl:justify-start': !message.isMine
+                  }"
+                >
+                  <!-- Time -->
+                  <span
+                    class="text-on-primary-500 text-sm font-medium leading-3 text-opacity-50"
+                  >
+                    {{ message.createdAt | date: 'HH:mm' }}
+                  </span>
+                </div>
+              </div>
+            </div>
           </ng-container>
         </div>
       </div>

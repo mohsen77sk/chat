@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ConversationInfo,
   ConversationsPaginate,
-  Messages,
+  Message,
   MessagesPaginate,
   UsersPaginate,
 } from './conversations.types';
@@ -103,7 +103,7 @@ export class ConversationsService {
   emitPaginateConversationUsers(
     conversationId: number,
     take: number,
-    page: number
+    page: number,
   ): void {
     this.socket.emit('paginateUsers', {
       conversationId,
@@ -128,7 +128,7 @@ export class ConversationsService {
   emitPaginateConversationMessages(
     conversationId: number,
     take: number,
-    page: number
+    page: number,
   ): void {
     this.socket.emit('paginateMessages', {
       conversationId,
@@ -149,7 +149,7 @@ export class ConversationsService {
   /**
    * Get added messages
    */
-  getAddedMessages(): Observable<Messages> {
-    return this.socket.fromEvent<Messages>('addMessage');
+  getAddedMessages(): Observable<Message> {
+    return this.socket.fromEvent<Message>('addMessage');
   }
 }

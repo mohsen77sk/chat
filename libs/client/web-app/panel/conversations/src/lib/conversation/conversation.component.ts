@@ -12,9 +12,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ChatMediaWatcherService } from '@chat/client/shared/util/media-watcher';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { ConversationsService } from '../conversations.service';
-import { ConversationInfo, MessagesPaginate } from '../conversations.types';
+import { ConversationInfo, Message, Pagination } from '../conversations.types';
 
 @Component({
   selector: 'chat-conversation',
@@ -34,9 +34,10 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
   drawerOpened = false;
 
   info!: ConversationInfo;
-  messages$!: Observable<MessagesPaginate>;
+  messages: Message[] = [];
+  pagination!: Pagination;
 
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  private _unsubscribeAll: Subject<void> = new Subject<void>();
 
   /**
    * Constructor
@@ -45,7 +46,7 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
     private _chatMediaWatcherService: ChatMediaWatcherService,
     private _conversationsService: ConversationsService,
     private _changeDetectorRef: ChangeDetectorRef,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
   ) {}
 
   // -----------------------------------------------------------------------------------------------------
@@ -111,11 +112,27 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
       });
 
-    this.messages$ = this._conversationsService.getConversationMessages();
+    this._conversationsService
+      .getConversationMessages()
+      .pipe(
+        map((res) => {
+          this.messages = res.items;
+          this.pagination = res.pagination;
+        }),
+      )
+      .subscribe();
 
     this._conversationsService
       .getAddedMessages()
-      .pipe(tap((r) => console.log(r)))
+      .pipe(
+        map((res) => {
+          this.messages.shift();
+          this.messages.push(res);
+          this.pagination.itemCount++;
+          // Mark for check
+          this._changeDetectorRef.markForCheck();
+        }),
+      )
       .subscribe();
   }
 
@@ -134,7 +151,7 @@ export class ConversationComponent implements OnInit, AfterViewInit, OnDestroy {
     // reset current conversation
     this._conversationsService.currentConversation = null;
     // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
 
