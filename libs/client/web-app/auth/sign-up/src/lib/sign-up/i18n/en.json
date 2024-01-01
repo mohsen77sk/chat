@@ -1,0 +1,12 @@
+{
+  "sign-in": "Sign in",
+  "sign-up": "Sign up",
+  "already-have-an-account": "Already have an account?",
+  "forgot-password": "Forgot password?",
+  "remember-me": "Remember me",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "phoneNumber": "phoneNumber",
+  "username": "Username",
+  "password": "Password"
+}
