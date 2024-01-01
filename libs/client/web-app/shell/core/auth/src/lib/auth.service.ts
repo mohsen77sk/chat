@@ -5,6 +5,7 @@ import { AuthUtils } from './auth.utils';
 
 import { UserService } from '@chat/client/web-app/shell/core/user';
 import { APP_CONFIG, IAppConfig } from '@chat/client/shared/app-config';
+import { registerModel } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
   constructor(
     @Inject(APP_CONFIG) private _appConfig: IAppConfig,
     private _httpClient: HttpClient,
-    private _userService: UserService
+    private _userService: UserService,
   ) {}
 
   // -----------------------------------------------------------------------------------------------------
@@ -49,23 +50,54 @@ export class AuthService {
       return throwError(() => 'User is already logged in.');
     }
 
-    return this._httpClient.post(`${this._appConfig.apiEndpoint}/auth/login`, credentials).pipe(
-      switchMap((response: any) => {
-        // Store the access token in the local storage
-        this.accessToken = response.accessToken;
+    return this._httpClient
+      .post(`${this._appConfig.apiEndpoint}/auth/login`, credentials)
+      .pipe(
+        switchMap((response: any) => {
+          // Store the access token in the local storage
+          this.accessToken = response.accessToken;
 
-        // Set the authenticated flag to true
-        this._authenticated = true;
+          // Set the authenticated flag to true
+          this._authenticated = true;
 
-        // Store the user on the user service
-        this._userService.user = response.user;
+          // Store the user on the user service
+          this._userService.user = response.user;
 
-        // Return a new observable with the response
-        return of(response);
-      })
-    );
+          // Return a new observable with the response
+          return of(response);
+        }),
+      );
   }
 
+  /**
+   * Sign up
+   *
+   * @param registerModel
+   */
+  signUp(registerModel: registerModel): Observable<any> {
+    // Throw error, if the user is already logged in
+    if (this._authenticated) {
+      return throwError(() => 'User is already logged in.');
+    }
+
+    return this._httpClient
+      .post(`${this._appConfig.apiEndpoint}/user/register`, registerModel)
+      .pipe(
+        switchMap((response: any) => {
+          // Store the access token in the local storage
+          this.accessToken = response.accessToken;
+
+          // Set the authenticated flag to true
+          this._authenticated = true;
+
+          // Store the user on the user service
+          this._userService.user = response.user;
+
+          // Return a new observable with the response
+          return of(response);
+        }),
+      );
+  }
   /**
    * Sign out
    */
@@ -110,8 +142,8 @@ export class AuthService {
       }),
       catchError(() =>
         // Return false
-        of(false)
-      )
+        of(false),
+      ),
     );
   }
 }

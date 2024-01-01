@@ -12,12 +12,12 @@ import { ChatAlertModule } from '@chat/client/shared/ui/alert';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { scopeLoader } from '@chat/client/shared/util/transloco';
 
-import { SignInComponent } from './sign-in.component';
+import { SignUpComponent } from './sign-up.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SignInComponent,
+    component: SignUpComponent,
   },
 ];
 
@@ -38,13 +38,13 @@ const routes: Routes = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'signIn',
+        scope: 'signUp',
         loader: scopeLoader(
           (lang: string, root: string) => import(`./${root}/${lang}.json`),
         ),
       },
     },
   ],
-  declarations: [SignInComponent],
+  declarations: [SignUpComponent],
 })
-export class AuthSignInModule {}
+export class AuthSignUpModule {}

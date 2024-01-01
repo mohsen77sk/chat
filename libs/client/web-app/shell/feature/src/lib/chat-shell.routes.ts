@@ -35,7 +35,25 @@ export const chatShellRoutes: Route[] = [
         path: 'sign-in',
         loadChildren: () =>
           import('@chat/client/web-app/auth/sign-in').then(
-            (m) => m.AuthSignInModule
+            (m) => m.AuthSignInModule,
+          ),
+      },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [NoAuthGuard],
+    canActivateChild: [NoAuthGuard],
+    component: ChatLayoutComponent,
+    data: {
+      layoutType: 'empty',
+    },
+    children: [
+      {
+        path: 'sign-up',
+        loadChildren: () =>
+          import('@chat/client/web-app/auth/sign-up').then(
+            (m) => m.AuthSignUpModule,
           ),
       },
     ],
@@ -55,7 +73,7 @@ export const chatShellRoutes: Route[] = [
         path: 'sign-out',
         loadChildren: () =>
           import('@chat/client/web-app/auth/sign-out').then(
-            (m) => m.AuthSignOutModule
+            (m) => m.AuthSignOutModule,
           ),
       },
     ],
@@ -79,7 +97,7 @@ export const chatShellRoutes: Route[] = [
             path: 'conversations',
             loadChildren: () =>
               import('@chat/client/web-app/panel/conversations').then(
-                (m) => m.ConversationsModule
+                (m) => m.ConversationsModule,
               ),
           },
         ],

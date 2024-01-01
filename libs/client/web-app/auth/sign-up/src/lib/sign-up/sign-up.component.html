@@ -6,21 +6,21 @@
       <!-- Title -->
       <div class="text-4xl font-extrabold leading-tight tracking-tight">
         <ng-container *transloco="let t">
-          {{ t('signIn.sign-in') }}
+          {{ t('signUp.sign-up') }}
         </ng-container>
       </div>
       <div class="mt-0.5 flex items-baseline font-medium">
         <div>
           <ng-container *transloco="let t">
-            {{ t('signIn.do-not-have-an-account') }}
+            {{ t('signUp.already-have-an-account') }}
           </ng-container>
         </div>
         <a
           class="text-primary-500 mx-1 hover:underline"
-          [routerLink]="['/sign-up']"
+          [routerLink]="['/sign-in']"
         >
           <ng-container *transloco="let t">
-            {{ t('signIn.sign-up') }}
+            {{ t('signUp.sign-in') }}
           </ng-container>
         </a>
       </div>
@@ -37,13 +37,66 @@
         {{ alert.message }}
       </chat-alert>
 
-      <!-- Sign in form -->
-      <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
+      <!-- Sign up form -->
+      <form class="mt-8" [formGroup]="signUpForm" #signUpNgForm="ngForm">
+        <div class="flex flex-col md:flex-row md:space-x-3">
+          <!-- firstName field -->
+          <mat-form-field class="flex-auto">
+            <mat-label>
+              <ng-container *transloco="let t">
+                {{ t('signUp.firstName') }}
+              </ng-container>
+            </mat-label>
+            <input id="firstName" matInput formControlName="firstName" />
+            <mat-error>
+              <ng-container *transloco="let t; read: 'error-validation'">
+                {{ t('required') }}
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+
+          <!-- lastName field -->
+          <mat-form-field class="flex-auto">
+            <mat-label>
+              <ng-container *transloco="let t">
+                {{ t('signUp.lastName') }}
+              </ng-container>
+            </mat-label>
+            <input id="lastName" matInput formControlName="lastName" />
+            <mat-error>
+              <ng-container *transloco="let t; read: 'error-validation'">
+                {{ t('required') }}
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- phoneNumber field -->
+        <mat-form-field class="w-full">
+          <mat-label>
+            <ng-container *transloco="let t">
+              {{ t('signUp.phoneNumber') }}
+            </ng-container>
+          </mat-label>
+          <input
+            id="phoneNumber"
+            mask="9{20}"
+            autocomplete="off"
+            matInput
+            formControlName="phoneNumber"
+          />
+          <mat-error>
+            <ng-container *transloco="let t; read: 'error-validation'">
+              {{ t('required') }}
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
         <!-- Username field -->
         <mat-form-field class="w-full">
           <mat-label>
             <ng-container *transloco="let t">
-              {{ t('signIn.username') }}
+              {{ t('signUp.username') }}
             </ng-container>
           </mat-label>
           <input id="username" matInput formControlName="username" />
@@ -58,7 +111,7 @@
         <mat-form-field class="w-full">
           <mat-label>
             <ng-container *transloco="let t">
-              {{ t('signIn.password') }}
+              {{ t('signUp.password') }}
             </ng-container>
           </mat-label>
           <input
@@ -104,11 +157,11 @@
           class="msk-mat-button-large mt-6 w-full"
           mat-flat-button
           [color]="'primary'"
-          [disabled]="signInForm.disabled"
-          (click)="signIn()"
+          [disabled]="signUpForm.disabled"
+          (click)="signUp()"
         >
-          <ng-container *transloco="let t; read: 'signIn'">
-            {{ t('sign-in') }}
+          <ng-container *transloco="let t; read: 'signUp'">
+            {{ t('sign-up') }}
           </ng-container>
         </button>
       </form>
