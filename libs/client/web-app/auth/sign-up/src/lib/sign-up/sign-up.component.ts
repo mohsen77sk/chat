@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-// import { chatAnimations } from '@chat/client/shared/animations';
+import { chatAnimations } from '@chat/client/shared/animations';
 import { ChatAlertType } from '@chat/client/shared/ui/alert';
 import { AuthService } from '@chat/client/web-app/shell/core/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { catchError, map } from 'rxjs';
   selector: 'chat-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
+  encapsulation: ViewEncapsulation.None,
+  animations: chatAnimations,
 })
 export class SignUpComponent implements OnInit {
   @ViewChild('signUpNgForm') signUpNgForm!: NgForm;

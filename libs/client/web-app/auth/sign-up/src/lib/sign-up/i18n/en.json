@@ -4,9 +4,9 @@
   "already-have-an-account": "Already have an account?",
   "forgot-password": "Forgot password?",
   "remember-me": "Remember me",
-  "firstName": "firstName",
-  "lastName": "lastName",
-  "phoneNumber": "phoneNumber",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "phoneNumber": "Phone Number",
   "username": "Username",
   "password": "Password"
 }
