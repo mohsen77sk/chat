@@ -1,10 +1,9 @@
 {
-  "name": "sign-up",
+  "name": "client-web-app-auth-sign-up",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/client/web-app/auth/sign-up/src",
-  "prefix": "lib",
-  "tags": [],
   "projectType": "library",
+  "sourceRoot": "libs/client/web-app/auth/sign-up/src",
+  "prefix": "chat",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -14,8 +13,8 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     }
-  }
+  },
+  "tags": ["scope:client-web", "type:feature"]
 }

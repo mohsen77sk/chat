@@ -38,17 +38,6 @@ export const chatShellRoutes: Route[] = [
             (m) => m.AuthSignInModule,
           ),
       },
-    ],
-  },
-  {
-    path: '',
-    canActivate: [NoAuthGuard],
-    canActivateChild: [NoAuthGuard],
-    component: ChatLayoutComponent,
-    data: {
-      layoutType: 'empty',
-    },
-    children: [
       {
         path: 'sign-up',
         loadChildren: () =>
